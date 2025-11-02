@@ -45,11 +45,23 @@ struct PrescriptionsView: View {
 
             Section {
 
-                RowLink(title: "Request a repeat prescription") {
-                    PrescriptionsRequestView()
+                Button(action: {
+                    showPrescriptionOrderFlow = true
+                }) {
+                    HStack {
+                        Text("Request an repeat prescription")
+                            .foregroundColor(.nhsBlack)
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundColor(.primary.opacity(0.7))
+                    }
+                    .contentShape(Rectangle())
                 }
+                .buttonStyle(.plain)
                 
-                RowLink(title: "Check the progress of prescriptions") { DetailView(index: 0) }
+                RowLink(title: "Check the progress of prescriptions") { PrescriptionsRequestView()
+                }
                 RowLink(title: "Medicines record") { DetailView(index: 0) }
                 
                 // Modified to show full-screen sheet
