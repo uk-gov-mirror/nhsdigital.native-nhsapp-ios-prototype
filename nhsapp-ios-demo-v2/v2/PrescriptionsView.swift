@@ -4,6 +4,7 @@ struct PrescriptionsView: View {
     
     @State private var showPrescriptionCard = true
     @State private var showPrescriptionOrderFlow = false
+    @State private var showEmergencyPrescriptionOrderFlow = false
 
     var body: some View {
         List {
@@ -64,9 +65,9 @@ struct PrescriptionsView: View {
                 }
                 RowLink(title: "Medicines record") { DetailView(index: 0) }
                 
-                // Modified to show full-screen sheet
+                // Emergency prescription button - opens separate flow
                 Button(action: {
-                    showPrescriptionOrderFlow = true
+                    showEmergencyPrescriptionOrderFlow = true
                 }) {
                     HStack {
                         Text("Request an emergency prescription")
@@ -109,6 +110,9 @@ struct PrescriptionsView: View {
         .nhsListStyle()
         .fullScreenCover(isPresented: $showPrescriptionOrderFlow) {
             PrescriptionOrderStep1View(isPresented: $showPrescriptionOrderFlow)
+        }
+        .fullScreenCover(isPresented: $showEmergencyPrescriptionOrderFlow) {
+            EmergencyPrescriptionOrderStep1View(isPresented: $showEmergencyPrescriptionOrderFlow)
         }
     }
 }
