@@ -5,7 +5,6 @@ import SwiftUI
 class EmergencyPrescriptionFlowData {
     var selectedPharmacy: PharmacyOption = .wellcare
     var selectedMedicines: Set<MedicineOption> = []
-    var additionalInformation: String = ""
     var emergencyReason: String = ""
 }
 
@@ -44,7 +43,7 @@ struct EmergencyPrescriptionOrderStep1ContentView: View {
                     // Inset text component
                     HStack(spacing: 0) {
                         Rectangle()
-                            .fill(Color.red)
+                            .fill(Color.nhsBlue)
                             .frame(width: 8)
                         
                         VStack(alignment: .leading, spacing: 16) {
@@ -69,19 +68,15 @@ struct EmergencyPrescriptionOrderStep1ContentView: View {
             VStack(spacing: 0) {
                 NavigationLink(destination: EmergencyPrescriptionOrderStep2View(flowData: flowData, isPresented: $isPresented)) {
                     Text("Start now")
-                        .font(.headline)
-                        .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.nhsGreen)
-                        .cornerRadius(30)
                 }
-                .buttonStyle(.plain)
+                .buttonStyle(.glass)
+                .controlSize(.large)
                 .padding()
             }
         }
         .navigationBarTitleDisplayMode(.inline)
-        .background(Color("NHSGrey5"))
+        .background(Color(red: 0.933, green: 0.922, blue: 0.949))
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button(action: {
@@ -124,14 +119,8 @@ struct EmergencyPrescriptionOrderStep2View: View {
                         .cornerRadius(30)
                         .overlay(
                             RoundedRectangle(cornerRadius: 30)
-                                .stroke(emergencyReason.isEmpty ? Color.red.opacity(0.5) : Color.nhsGrey4, lineWidth: 1)
+                                .stroke(emergencyReason.isEmpty ? Color.nhsGrey4.opacity(0.5) : Color.nhsGrey4, lineWidth: 1)
                         )
-                    
-                    if emergencyReason.isEmpty {
-                        Text("This field is required")
-                            .font(.caption)
-                            .foregroundColor(.red)
-                    }
                 }
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -140,14 +129,10 @@ struct EmergencyPrescriptionOrderStep2View: View {
             VStack(spacing: 0) {
                 NavigationLink(destination: EmergencyPrescriptionOrderStep3View(flowData: flowData, isPresented: $isPresented)) {
                     Text("Continue")
-                        .font(.headline)
-                        .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(!emergencyReason.isEmpty ? Color.nhsGreen : Color.nhsGreen)
-                        .cornerRadius(30)
                 }
-                .buttonStyle(.plain)
+                .buttonStyle(.glass)
+                .controlSize(.large)
                 .disabled(emergencyReason.isEmpty)
                 .simultaneousGesture(TapGesture().onEnded {
                     flowData.emergencyReason = emergencyReason
@@ -156,7 +141,7 @@ struct EmergencyPrescriptionOrderStep2View: View {
             }
         }
         .navigationBarTitleDisplayMode(.inline)
-        .background(Color("NHSGrey5"))
+        .background(Color(red: 0.933, green: 0.922, blue: 0.949))
         .environment(flowData)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
@@ -254,19 +239,15 @@ struct EmergencyPrescriptionOrderStep3View: View {
             VStack(spacing: 0) {
                 NavigationLink(destination: EmergencyPrescriptionOrderStep4View(flowData: flowData, isPresented: $isPresented)) {
                     Text("Continue")
-                        .font(.headline)
-                        .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.nhsGreen)
-                        .cornerRadius(30)
                 }
-                .buttonStyle(.plain)
+                .buttonStyle(.glass)
+                .controlSize(.large)
                 .padding()
             }
         }
         .navigationBarTitleDisplayMode(.inline)
-        .background(Color("NHSGrey5"))
+        .background(Color(red: 0.933, green: 0.922, blue: 0.949))
         .environment(flowData)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
@@ -367,19 +348,16 @@ struct EmergencyChangePharmacySheet: View {
                         }
                     }) {
                         Text("Continue")
-                            .font(.headline)
-                            .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(selectedPharmacy != nil ? Color.nhsGreen : Color.nhsGreen)
-                            .cornerRadius(30)
                     }
+                    .buttonStyle(.glass)
+                    .controlSize(.large)
                     .disabled(selectedPharmacy == nil)
                     .padding()
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
-            .background(Color("NHSGrey5"))
+            .background(Color(red: 0.933, green: 0.922, blue: 0.949))
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button(action: {
@@ -501,14 +479,10 @@ struct EmergencyPrescriptionOrderStep4View: View {
             VStack(spacing: 0) {
                 NavigationLink(destination: EmergencyPrescriptionOrderStep5View(flowData: flowData, isPresented: $isPresented)) {
                     Text("Continue")
-                        .font(.headline)
-                        .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(!selectedMedicines.isEmpty ? Color.nhsGreen : Color.nhsGreen)
-                        .cornerRadius(30)
                 }
-                .buttonStyle(.plain)
+                .buttonStyle(.glass)
+                .controlSize(.large)
                 .disabled(selectedMedicines.isEmpty)
                 .simultaneousGesture(TapGesture().onEnded {
                     flowData.selectedMedicines = selectedMedicines
@@ -517,7 +491,7 @@ struct EmergencyPrescriptionOrderStep4View: View {
             }
         }
         .navigationBarTitleDisplayMode(.inline)
-        .background(Color("NHSGrey5"))
+        .background(Color(red: 0.933, green: 0.922, blue: 0.949))
         .environment(flowData)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
@@ -543,92 +517,13 @@ struct EmergencyPrescriptionOrderStep4View: View {
     }
 }
 
-// MARK: - Flow step 5: Additional information
+// MARK: - Flow step 5: Confirm details
 struct EmergencyPrescriptionOrderStep5View: View {
-    @State var flowData: EmergencyPrescriptionFlowData
-    @Binding var isPresented: Bool
-    @State private var additionalInformation: String = ""
-    @State private var showCloseAlert = false
-    
-    var body: some View {
-        VStack(spacing: 0) {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 20) {
-                    Text("Additional information")
-                        .font(.title)
-                        .bold()
-                        .fixedSize(horizontal: false, vertical: true)
-                    
-                    Text("Please provide any additional information about your emergency prescription request (optional).")
-                        .font(.body)
-                        .foregroundColor(.secondary)
-                    
-                    TextEditor(text: $additionalInformation)
-                        .frame(minHeight: 150)
-                        .padding(16)
-                        .background(Color.white)
-                        .cornerRadius(30)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 30)
-                                .stroke(Color.nhsGrey4, lineWidth: 1)
-                        )
-                }
-                .padding()
-                .frame(maxWidth: .infinity, alignment: .leading)
-            }
-            
-            VStack(spacing: 0) {
-                NavigationLink(destination: EmergencyPrescriptionOrderStep6View(flowData: flowData, isPresented: $isPresented)) {
-                    Text("Continue")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.nhsGreen)
-                        .cornerRadius(30)
-                }
-                .buttonStyle(.plain)
-                .simultaneousGesture(TapGesture().onEnded {
-                    flowData.additionalInformation = additionalInformation
-                })
-                .padding()
-            }
-        }
-        .navigationBarTitleDisplayMode(.inline)
-        .background(Color("NHSGrey5"))
-        .environment(flowData)
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Button(action: {
-                    showCloseAlert = true
-                }) {
-                    Image(systemName: "xmark")
-                        .accessibilityLabel("Close")
-                }
-            }
-        }
-        .alert("Are you sure you want to close this form?", isPresented: $showCloseAlert) {
-            Button("Continue with form", role: .cancel) { }
-            Button("Exit form", role: .destructive) {
-                isPresented = false
-            }
-        } message: {
-            Text("Your progress will not be saved.")
-        }
-        .onAppear {
-            additionalInformation = flowData.additionalInformation
-        }
-    }
-}
-
-// MARK: - Flow step 6: Confirm details
-struct EmergencyPrescriptionOrderStep6View: View {
     @State var flowData: EmergencyPrescriptionFlowData
     @Binding var isPresented: Bool
     @State private var showEditEmergencyReason = false
     @State private var showEditPharmacy = false
     @State private var showEditMedicines = false
-    @State private var showEditInformation = false
     @State private var showCloseAlert = false
     
     var body: some View {
@@ -718,34 +613,6 @@ struct EmergencyPrescriptionOrderStep6View: View {
                             .padding(.vertical, 12)
                         }
                         .buttonStyle(.plain)
-                        
-                        if !flowData.additionalInformation.isEmpty {
-                            Divider()
-                            
-                            Button(action: {
-                                showEditInformation = true
-                            }) {
-                                HStack {
-                                    VStack(alignment: .leading, spacing: 4) {
-                                        Text("Additional information")
-                                            .font(.body)
-                                            .bold()
-                                            .foregroundColor(.gray)
-                                        Text(flowData.additionalInformation)
-                                            .font(.body)
-                                            .foregroundColor(.nhsBlack)
-                                            .lineLimit(2)
-                                    }
-                                    Spacer()
-                                    Image(systemName: "chevron.right")
-                                        .font(.system(size: 14, weight: .semibold))
-                                        .foregroundColor(.primary.opacity(0.7))
-                                }
-                                .contentShape(Rectangle())
-                                .padding(.vertical, 12)
-                            }
-                            .buttonStyle(.plain)
-                        }
                     }
                     .padding(.horizontal)
                     .background(Color.white)
@@ -756,21 +623,17 @@ struct EmergencyPrescriptionOrderStep6View: View {
             }
             
             VStack(spacing: 0) {
-                NavigationLink(destination: EmergencyPrescriptionOrderStep7View(flowData: flowData, isPresented: $isPresented)) {
+                NavigationLink(destination: EmergencyPrescriptionOrderStep6View(flowData: flowData, isPresented: $isPresented)) {
                     Text("Submit emergency request")
-                        .font(.headline)
-                        .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.nhsGreen)
-                        .cornerRadius(30)
                 }
-                .buttonStyle(.plain)
+                .buttonStyle(.glass)
+                .controlSize(.large)
                 .padding()
             }
         }
         .navigationBarTitleDisplayMode(.inline)
-        .background(Color("NHSGrey5"))
+        .background(Color(red: 0.933, green: 0.922, blue: 0.949))
         .environment(flowData)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
@@ -798,9 +661,6 @@ struct EmergencyPrescriptionOrderStep6View: View {
         }
         .sheet(isPresented: $showEditMedicines) {
             EmergencyEditMedicinesSheet(flowData: flowData, isPresented: $showEditMedicines)
-        }
-        .sheet(isPresented: $showEditInformation) {
-            EmergencyEditInformationSheet(flowData: flowData, isPresented: $showEditInformation)
         }
     }
 }
@@ -832,14 +692,8 @@ struct EmergencyEditReasonSheet: View {
                             .cornerRadius(30)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 30)
-                                    .stroke(emergencyReason.isEmpty ? Color.red.opacity(0.5) : Color.nhsGrey4, lineWidth: 1)
+                                    .stroke(emergencyReason.isEmpty ? Color.nhsGrey4.opacity(0.5) : Color.nhsGrey4, lineWidth: 1)
                             )
-                        
-                        if emergencyReason.isEmpty {
-                            Text("This field is required")
-                                .font(.caption)
-                                .foregroundColor(.red)
-                        }
                     }
                     .padding()
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -851,19 +705,16 @@ struct EmergencyEditReasonSheet: View {
                         isPresented = false
                     }) {
                         Text("Continue")
-                            .font(.headline)
-                            .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(!emergencyReason.isEmpty ? Color.nhsGreen : Color.nhsGreen)
-                            .cornerRadius(30)
                     }
+                    .buttonStyle(.glass)
+                    .controlSize(.large)
                     .disabled(emergencyReason.isEmpty)
                     .padding()
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
-            .background(Color("NHSGrey5"))
+            .background(Color(red: 0.933, green: 0.922, blue: 0.949))
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button(action: {
@@ -988,19 +839,16 @@ struct EmergencyEditMedicinesSheet: View {
                         isPresented = false
                     }) {
                         Text("Continue")
-                            .font(.headline)
-                            .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(!selectedMedicines.isEmpty ? Color.nhsGreen : Color.nhsGreen)
-                            .cornerRadius(30)
                     }
+                    .buttonStyle(.glass)
+                    .controlSize(.large)
                     .disabled(selectedMedicines.isEmpty)
                     .padding()
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
-            .background(Color("NHSGrey5"))
+            .background(Color(red: 0.933, green: 0.922, blue: 0.949))
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button(action: {
@@ -1018,77 +866,8 @@ struct EmergencyEditMedicinesSheet: View {
     }
 }
 
-// MARK: - Edit Information Sheet
-struct EmergencyEditInformationSheet: View {
-    @State var flowData: EmergencyPrescriptionFlowData
-    @Binding var isPresented: Bool
-    @State private var additionalInformation: String = ""
-    
-    var body: some View {
-        NavigationStack {
-            VStack(spacing: 0) {
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 20) {
-                        Text("Additional information")
-                            .font(.title)
-                            .bold()
-                            .fixedSize(horizontal: false, vertical: true)
-                        
-                        Text("Please provide any additional information about your emergency prescription request (optional).")
-                            .font(.body)
-                            .foregroundColor(Color.nhsGrey1)
-                        
-                        TextEditor(text: $additionalInformation)
-                            .frame(minHeight: 150)
-                            .padding(16)
-                            .background(Color.nhsWhite)
-                            .cornerRadius(30)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 30)
-                                    .stroke(Color.nhsGrey4, lineWidth: 1)
-                            )
-                    }
-                    .padding()
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                }
-                
-                VStack(spacing: 0) {
-                    Button(action: {
-                        flowData.additionalInformation = additionalInformation
-                        isPresented = false
-                    }) {
-                        Text("Continue")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.nhsGreen)
-                            .cornerRadius(30)
-                    }
-                    .padding()
-                }
-            }
-            .navigationBarTitleDisplayMode(.inline)
-            .background(Color("NHSGrey5"))
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button(action: {
-                        isPresented = false
-                    }) {
-                        Image(systemName: "xmark")
-                            .accessibilityLabel("Close")
-                    }
-                }
-            }
-        }
-        .onAppear {
-            additionalInformation = flowData.additionalInformation
-        }
-    }
-}
-
-// MARK: - Flow step 7: Request confirmed
-struct EmergencyPrescriptionOrderStep7View: View {
+// MARK: - Flow step 6: Request confirmed
+struct EmergencyPrescriptionOrderStep6View: View {
     @State var flowData: EmergencyPrescriptionFlowData
     @Binding var isPresented: Bool
     
@@ -1101,12 +880,12 @@ struct EmergencyPrescriptionOrderStep7View: View {
                             Text("Your emergency prescription has been requested")
                                 .font(.largeTitle)
                                 .bold()
-                                .foregroundColor(.nhsGreen)
+                                .foregroundColor(.nhsWhite)
                             Spacer()
                         }
                         .padding(.horizontal)
                         .padding(.vertical)
-                        .background(Color.nhsAppPaleGreen)
+                        .background(Color("NHSPurple"))
                         .cornerRadius(30)
                     }
                     .padding(.horizontal)
@@ -1176,7 +955,7 @@ struct EmergencyPrescriptionOrderStep7View: View {
         }
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
-        .background(Color("NHSGrey5"))
+        .background(Color(red: 0.933, green: 0.922, blue: 0.949))
         .environment(flowData)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
@@ -1195,5 +974,7 @@ struct EmergencyPrescriptionOrderStep7View: View {
 
 // MARK: - Preview
 #Preview {
-    EmergencyPrescriptionOrderStep1View(isPresented: .constant(true))
+    NavigationStack {
+        PrescriptionsView()
+    }
 }
