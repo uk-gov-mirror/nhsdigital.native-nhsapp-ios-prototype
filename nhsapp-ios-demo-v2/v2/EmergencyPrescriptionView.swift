@@ -39,26 +39,28 @@ struct EmergencyPrescriptionOrderStep1ContentView: View {
                 Text("Use this service to request a limited emergency supply of a medicine you've completely run out of.")
                     .font(.title2)
                 
-                Text("This must be a medicine you are prescribed regularly, through a repeat prescription.")
+                Text("This must be a medicine you are prescribed regularly, through a repeat prescription. You will be charged your usual prescription fee. If you do not usually pay, it will be free.").font(.body)
+                
+                Text("When not to use this service")
+                    .font(.title2).fontWeight(.semibold)
+                    .padding(.top, 12)
+                
+                Text("If you need medicine and also have any symptoms, call 111 and speak to an adviser instead.")
                     .font(.body)
+                
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("You cannot use this service to get:")
+                        .font(.body)
                     
-                Text("You will be charged your usual prescription fee. If you do not usually pay, it will be free.")
-                    .font(.body)
-                    
-                // Inset text component
-                HStack(spacing: 0) {
-                    Rectangle()
-                        .fill(Color.nhsBlue)
-                        .frame(width: 8)
-                    
-                    VStack(alignment: .leading, spacing: 16) {
-                        Text("Emergency prescription")
-                            .font(.headline)
-                        
-                        Text("Emergency prescriptions are for urgent medical needs only. Your GP will review your request as a priority. Please provide a clear explanation of why this is an emergency.")
-                            .font(.body)
+                    HStack(alignment: .top, spacing: 8) {
+                        Text("–")
+                        Text("antibiotics for a new or recent problem")
                     }
-                    .padding(.leading, 16)
+                    
+                    HStack(alignment: .top, spacing: 8) {
+                        Text("–")
+                        Text("controlled drugs that require identification to collect")
+                    }
                 }
                 
                 Divider()
