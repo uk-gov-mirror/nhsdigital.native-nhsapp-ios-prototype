@@ -29,51 +29,55 @@ struct EmergencyPrescriptionOrderStep1ContentView: View {
     @Binding var isPresented: Bool
     
     var body: some View {
-        VStack(spacing: 0) {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 20) {
-                    Text("Request an emergency prescription")
-                        .font(.largeTitle)
-                        .bold()
-                        .fixedSize(horizontal: false, vertical: true)
-                
-                    Text("Use this service to request an emergency prescription from your GP surgery.")
-                        .font(.body)
-                        
-                    // Inset text component
-                    HStack(spacing: 0) {
-                        Rectangle()
-                            .fill(Color.nhsBlue)
-                            .frame(width: 8)
-                        
-                        VStack(alignment: .leading, spacing: 16) {
-                            Text("Emergency prescription")
-                                .font(.headline)
-                            
-                            Text("Emergency prescriptions are for urgent medical needs only. Your GP will review your request as a priority. Please provide a clear explanation of why this is an emergency.")
-                                .font(.body)
-                        }
-                        .padding(.leading, 16)
-                    }
-                    
-                    Divider()
-
-                    Text("For life-threatening emergencies, call 999. For urgent medical advice, call 111 or visit 111.nhs.uk")
-                        .font(.body)
-                }
-                .padding()
-                .frame(maxWidth: .infinity, alignment: .leading)
-            }
+        ScrollView {
+            VStack(alignment: .leading, spacing: 20) {
+                Text("Request an emergency prescription")
+                    .font(.largeTitle)
+                    .bold()
+                    .fixedSize(horizontal: false, vertical: true)
             
-            VStack(spacing: 0) {
-                NavigationLink(destination: EmergencyPrescriptionOrderStep2View(flowData: flowData, isPresented: $isPresented)) {
-                    Text("Start now")
-                        .frame(maxWidth: .infinity)
+                Text("Use this service to request a limited emergency supply of a medicine you've completely run out of.")
+                    .font(.title2)
+                
+                Text("This must be a medicine you are prescribed regularly, through a repeat prescription.")
+                    .font(.body)
+                    
+                Text("You will be charged your usual prescription fee. If you do not usually pay, it will be free.")
+                    .font(.body)
+                    
+                // Inset text component
+                HStack(spacing: 0) {
+                    Rectangle()
+                        .fill(Color.nhsBlue)
+                        .frame(width: 8)
+                    
+                    VStack(alignment: .leading, spacing: 16) {
+                        Text("Emergency prescription")
+                            .font(.headline)
+                        
+                        Text("Emergency prescriptions are for urgent medical needs only. Your GP will review your request as a priority. Please provide a clear explanation of why this is an emergency.")
+                            .font(.body)
+                    }
+                    .padding(.leading, 16)
                 }
-                .buttonStyle(.glass)
-                .controlSize(.large)
-                .padding()
+                
+                Divider()
+
+                Text("For life-threatening emergencies, call 999. For urgent medical advice, call 111 or visit 111.nhs.uk")
+                    .font(.body)
             }
+            .padding()
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .safeAreaInset(edge: .bottom) {
+            NavigationLink(destination: EmergencyPrescriptionOrderStep2View(flowData: flowData, isPresented: $isPresented)) {
+                Text("Start now")
+                    .frame(maxWidth: .infinity)
+                    .fontWeight(.semibold)
+            }
+            .buttonStyle(.glass)
+            .controlSize(.large)
+            .padding()
         }
         .navigationBarTitleDisplayMode(.inline)
         .background(Color(red: 0.933, green: 0.922, blue: 0.949))
@@ -100,45 +104,43 @@ struct EmergencyPrescriptionOrderStep2View: View {
     @State private var showCloseAlert = false
     
     var body: some View {
-        VStack(spacing: 0) {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 20) {
-                    Text("Why is this an emergency?")
-                        .font(.title)
-                        .bold()
-                        .fixedSize(horizontal: false, vertical: true)
-                    
-                    Text("Please explain why you need this prescription urgently. This information helps your GP prioritize your request.")
-                        .font(.body)
-                        .foregroundColor(.secondary)
-                    
-                    TextEditor(text: $emergencyReason)
-                        .frame(minHeight: 150)
-                        .padding(16)
-                        .background(Color.white)
-                        .cornerRadius(30)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 30)
-                                .stroke(emergencyReason.isEmpty ? Color.nhsGrey4.opacity(0.5) : Color.nhsGrey4, lineWidth: 1)
-                        )
-                }
-                .padding()
-                .frame(maxWidth: .infinity, alignment: .leading)
+        ScrollView {
+            VStack(alignment: .leading, spacing: 20) {
+                Text("Why is this an emergency?")
+                    .font(.title)
+                    .bold()
+                    .fixedSize(horizontal: false, vertical: true)
+                
+                Text("Please explain why you need this prescription urgently. This information helps your GP prioritize your request.")
+                    .font(.body)
+                    .foregroundColor(.secondary)
+                
+                TextEditor(text: $emergencyReason)
+                    .frame(minHeight: 150)
+                    .padding(16)
+                    .background(Color.white)
+                    .cornerRadius(30)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 30)
+                            .stroke(emergencyReason.isEmpty ? Color.nhsGrey4.opacity(0.5) : Color.nhsGrey4, lineWidth: 1)
+                    )
             }
-            
-            VStack(spacing: 0) {
-                NavigationLink(destination: EmergencyPrescriptionOrderStep3View(flowData: flowData, isPresented: $isPresented)) {
-                    Text("Continue")
-                        .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(.glass)
-                .controlSize(.large)
-                .disabled(emergencyReason.isEmpty)
-                .simultaneousGesture(TapGesture().onEnded {
-                    flowData.emergencyReason = emergencyReason
-                })
-                .padding()
+            .padding()
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .safeAreaInset(edge: .bottom) {
+            NavigationLink(destination: EmergencyPrescriptionOrderStep3View(flowData: flowData, isPresented: $isPresented)) {
+                Text("Continue")
+                    .frame(maxWidth: .infinity)
+                    .fontWeight(.semibold)
             }
+            .buttonStyle(.glass)
+            .controlSize(.large)
+            .disabled(emergencyReason.isEmpty)
+            .simultaneousGesture(TapGesture().onEnded {
+                flowData.emergencyReason = emergencyReason
+            })
+            .padding()
         }
         .navigationBarTitleDisplayMode(.inline)
         .background(Color(red: 0.933, green: 0.922, blue: 0.949))
@@ -175,76 +177,74 @@ struct EmergencyPrescriptionOrderStep3View: View {
     @State private var showCloseAlert = false
     
     var body: some View {
-        VStack(spacing: 0) {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 0) {
-                    Text("Your pharmacy")
-                        .font(.title)
-                        .bold()
-                        .fixedSize(horizontal: false, vertical: true)
-                        .padding(.horizontal)
-                        .padding(.top)
-                    
-                    Text("Your emergency prescription will be sent to this pharmacy.")
-                        .font(.body)
-                        .foregroundColor(.secondary)
-                        .padding(.horizontal)
-                        .padding(.top, 8)
-                    
-                    VStack(spacing: 0) {
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(flowData.selectedPharmacy.name)
-                                .foregroundColor(.nhsBlack)
-                                .font(.body)
-                                .bold()
-                            Text(flowData.selectedPharmacy.address)
-                                .foregroundColor(.secondary)
-                                .font(.subheadline)
-                        }
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding()
-                        .background(Color.white)
-                        
-                        Divider()
-                            .padding(.horizontal)
-                        
-                        Button(action: {
-                            showChangePharmacy = true
-                        }) {
-                            HStack {
-                                Text("Change pharmacy")
-                                    .foregroundColor(.nhsBlue)
-                                    .font(.body)
-                                
-                                Spacer()
-                                
-                                Image(systemName: "chevron.right")
-                                    .font(.system(size: 14, weight: .semibold))
-                                    .foregroundColor(.nhsBlue)
-                            }
-                            .contentShape(Rectangle())
-                            .padding()
-                        }
-                        .buttonStyle(.plain)
-                        .background(Color.white)
-                    }
-                    .background(Color.white)
-                    .cornerRadius(30)
+        ScrollView {
+            VStack(alignment: .leading, spacing: 0) {
+                Text("Your pharmacy")
+                    .font(.title)
+                    .bold()
+                    .fixedSize(horizontal: false, vertical: true)
                     .padding(.horizontal)
-                    .padding(.top, 20)
+                    .padding(.top)
+                
+                Text("Your emergency prescription will be sent to this pharmacy.")
+                    .font(.body)
+                    .foregroundColor(.secondary)
+                    .padding(.horizontal)
+                    .padding(.top, 8)
+                
+                VStack(spacing: 0) {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(flowData.selectedPharmacy.name)
+                            .foregroundColor(.nhsBlack)
+                            .font(.body)
+                            .bold()
+                        Text(flowData.selectedPharmacy.address)
+                            .foregroundColor(.secondary)
+                            .font(.subheadline)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding()
+                    .background(Color.white)
+                    
+                    Divider()
+                        .padding(.horizontal)
+                    
+                    Button(action: {
+                        showChangePharmacy = true
+                    }) {
+                        HStack {
+                            Text("Change pharmacy")
+                                .foregroundColor(.nhsBlue)
+                                .font(.body)
+                            
+                            Spacer()
+                            
+                            Image(systemName: "chevron.right")
+                                .font(.system(size: 14, weight: .semibold))
+                                .foregroundColor(.nhsBlue)
+                        }
+                        .contentShape(Rectangle())
+                        .padding()
+                    }
+                    .buttonStyle(.plain)
+                    .background(Color.white)
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(Color.white)
+                .cornerRadius(30)
+                .padding(.horizontal)
+                .padding(.top, 20)
             }
-            
-            VStack(spacing: 0) {
-                NavigationLink(destination: EmergencyPrescriptionOrderStep4View(flowData: flowData, isPresented: $isPresented)) {
-                    Text("Continue")
-                        .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(.glass)
-                .controlSize(.large)
-                .padding()
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .safeAreaInset(edge: .bottom) {
+            NavigationLink(destination: EmergencyPrescriptionOrderStep4View(flowData: flowData, isPresented: $isPresented)) {
+                Text("Continue")
+                    .frame(maxWidth: .infinity)
+                    .fontWeight(.semibold)
             }
+            .buttonStyle(.glass)
+            .controlSize(.large)
+            .padding()
         }
         .navigationBarTitleDisplayMode(.inline)
         .background(Color(red: 0.933, green: 0.922, blue: 0.949))
@@ -273,7 +273,7 @@ struct EmergencyPrescriptionOrderStep3View: View {
     }
 }
 
-// MARK: - Change Pharmacy Sheet
+// MARK: - Change pharmacy sheet
 struct EmergencyChangePharmacySheet: View {
     @State var flowData: EmergencyPrescriptionFlowData
     @Binding var isPresented: Bool
@@ -281,80 +281,78 @@ struct EmergencyChangePharmacySheet: View {
     
     var body: some View {
         NavigationStack {
-            VStack(spacing: 0) {
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 0) {
-                        Text("Select your pharmacy")
-                            .font(.title)
-                            .bold()
-                            .fixedSize(horizontal: false, vertical: true)
-                            .padding(.horizontal)
-                            .padding(.top)
-                        
-                        Text("Your emergency prescription will be sent to this pharmacy.")
-                            .font(.body)
-                            .foregroundColor(.secondary)
-                            .padding(.horizontal)
-                            .padding(.top, 8)
-                        
-                        VStack(spacing: 0) {
-                            ForEach(PharmacyOption.allCases) { option in
-                                Button(action: {
-                                    selectedPharmacy = option
-                                }) {
-                                    HStack {
-                                        VStack(alignment: .leading, spacing: 4) {
-                                            Text(option.name)
-                                                .foregroundColor(.nhsBlack)
-                                                .font(.body)
-                                            Text(option.address)
-                                                .foregroundColor(.secondary)
-                                                .font(.subheadline)
-                                        }
-                                        
-                                        Spacer()
-                                        
-                                        if selectedPharmacy == option {
-                                            Image(systemName: "checkmark")
-                                                .font(.system(size: 16, weight: .semibold))
-                                                .foregroundColor(Color("NHSGreen"))
-                                        }
+            ScrollView {
+                VStack(alignment: .leading, spacing: 0) {
+                    Text("Select your pharmacy")
+                        .font(.title)
+                        .bold()
+                        .fixedSize(horizontal: false, vertical: true)
+                        .padding(.horizontal)
+                        .padding(.top)
+                    
+                    Text("Your emergency prescription will be sent to this pharmacy.")
+                        .font(.body)
+                        .foregroundColor(.secondary)
+                        .padding(.horizontal)
+                        .padding(.top, 8)
+                    
+                    VStack(spacing: 0) {
+                        ForEach(PharmacyOption.allCases) { option in
+                            Button(action: {
+                                selectedPharmacy = option
+                            }) {
+                                HStack {
+                                    VStack(alignment: .leading, spacing: 4) {
+                                        Text(option.name)
+                                            .foregroundColor(.nhsBlack)
+                                            .font(.body)
+                                        Text(option.address)
+                                            .foregroundColor(.secondary)
+                                            .font(.subheadline)
                                     }
-                                    .contentShape(Rectangle())
-                                    .padding()
+                                    
+                                    Spacer()
+                                    
+                                    if selectedPharmacy == option {
+                                        Image(systemName: "checkmark")
+                                            .font(.system(size: 16, weight: .semibold))
+                                            .foregroundColor(Color("NHSGreen"))
+                                    }
                                 }
-                                .buttonStyle(.plain)
-                                .background(Color.white)
-                                
-                                if option != PharmacyOption.allCases.last {
-                                    Divider()
-                                        .padding(.horizontal)
-                                }
+                                .contentShape(Rectangle())
+                                .padding()
+                            }
+                            .buttonStyle(.plain)
+                            .background(Color.white)
+                            
+                            if option != PharmacyOption.allCases.last {
+                                Divider()
+                                    .padding(.horizontal)
                             }
                         }
-                        .background(Color.white)
-                        .cornerRadius(30)
-                        .padding(.horizontal)
-                        .padding(.top, 20)
                     }
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(Color.white)
+                    .cornerRadius(30)
+                    .padding(.horizontal)
+                    .padding(.top, 20)
                 }
-                
-                VStack(spacing: 0) {
-                    Button(action: {
-                        if let pharmacy = selectedPharmacy {
-                            flowData.selectedPharmacy = pharmacy
-                            isPresented = false
-                        }
-                    }) {
-                        Text("Continue")
-                            .frame(maxWidth: .infinity)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            .safeAreaInset(edge: .bottom) {
+                Button(action: {
+                    if let pharmacy = selectedPharmacy {
+                        flowData.selectedPharmacy = pharmacy
+                        isPresented = false
                     }
-                    .buttonStyle(.glass)
-                    .controlSize(.large)
-                    .disabled(selectedPharmacy == nil)
-                    .padding()
+                }) {
+                    Text("Continue")
+                        .frame(maxWidth: .infinity)
+                        .fontWeight(.semibold)
                 }
+                .buttonStyle(.glass)
+                .controlSize(.large)
+                .disabled(selectedPharmacy == nil)
+                .padding()
             }
             .navigationBarTitleDisplayMode(.inline)
             .background(Color(red: 0.933, green: 0.922, blue: 0.949))
@@ -368,12 +366,14 @@ struct EmergencyChangePharmacySheet: View {
                     }
                 }
             }
-        }
-        .onAppear {
-            selectedPharmacy = flowData.selectedPharmacy
+            .onAppear {
+                selectedPharmacy = flowData.selectedPharmacy
+            }
         }
     }
 }
+
+// Continue with remaining views using the same pattern...
 
 // MARK: - Flow step 4: Select medicines
 struct EmergencyPrescriptionOrderStep4View: View {
@@ -387,39 +387,71 @@ struct EmergencyPrescriptionOrderStep4View: View {
     }
     
     var body: some View {
-        VStack(spacing: 0) {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 0) {
-                    Text("Which medicines do you need urgently?")
-                        .font(.title)
-                        .bold()
-                        .fixedSize(horizontal: false, vertical: true)
-                        .padding(.horizontal)
-                        .padding(.top)
+        ScrollView {
+            VStack(alignment: .leading, spacing: 0) {
+                Text("Which medicines do you need urgently?")
+                    .font(.title)
+                    .bold()
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(.horizontal)
+                    .padding(.top)
+                
+                Text("Select the medicines you need for your emergency prescription.")
+                    .font(.body)
+                    .foregroundColor(.secondary)
+                    .padding(.horizontal)
+                    .padding(.top, 8)
+                
+                VStack(spacing: 0) {
+                    // Select all option
+                    HStack {
+                        Text("Select all")
+                            .foregroundColor(.nhsBlack)
+                            .font(.body)
+                            .bold()
+                        
+                        Spacer()
+                        
+                        Toggle("", isOn: Binding(
+                            get: { allMedicinesSelected },
+                            set: { isOn in
+                                if isOn {
+                                    selectedMedicines = Set(MedicineOption.allCases)
+                                } else {
+                                    selectedMedicines.removeAll()
+                                }
+                            }
+                        ))
+                        .labelsHidden()
+                        .tint(Color.nhsGreen)
+                    }
+                    .padding()
+                    .background(Color.white)
                     
-                    Text("Select the medicines you need for your emergency prescription.")
-                        .font(.body)
-                        .foregroundColor(.secondary)
+                    Divider()
                         .padding(.horizontal)
-                        .padding(.top, 8)
                     
-                    VStack(spacing: 0) {
-                        // Select all option
+                    // Individual medicines
+                    ForEach(MedicineOption.allCases) { option in
                         HStack {
-                            Text("Select all")
-                                .foregroundColor(.nhsBlack)
-                                .font(.body)
-                                .bold()
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(option.name)
+                                    .foregroundColor(.nhsBlack)
+                                    .font(.body)
+                                Text(option.details)
+                                    .foregroundColor(.secondary)
+                                    .font(.subheadline)
+                            }
                             
                             Spacer()
                             
                             Toggle("", isOn: Binding(
-                                get: { allMedicinesSelected },
+                                get: { selectedMedicines.contains(option) },
                                 set: { isOn in
                                     if isOn {
-                                        selectedMedicines = Set(MedicineOption.allCases)
+                                        selectedMedicines.insert(option)
                                     } else {
-                                        selectedMedicines.removeAll()
+                                        selectedMedicines.remove(option)
                                     }
                                 }
                             ))
@@ -429,66 +461,32 @@ struct EmergencyPrescriptionOrderStep4View: View {
                         .padding()
                         .background(Color.white)
                         
-                        Divider()
-                            .padding(.horizontal)
-                        
-                        // Individual medicines
-                        ForEach(MedicineOption.allCases) { option in
-                            HStack {
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text(option.name)
-                                        .foregroundColor(.nhsBlack)
-                                        .font(.body)
-                                    Text(option.details)
-                                        .foregroundColor(.secondary)
-                                        .font(.subheadline)
-                                }
-                                
-                                Spacer()
-                                
-                                Toggle("", isOn: Binding(
-                                    get: { selectedMedicines.contains(option) },
-                                    set: { isOn in
-                                        if isOn {
-                                            selectedMedicines.insert(option)
-                                        } else {
-                                            selectedMedicines.remove(option)
-                                        }
-                                    }
-                                ))
-                                .labelsHidden()
-                                .tint(Color.nhsGreen)
-                            }
-                            .padding()
-                            .background(Color.white)
-                            
-                            if option != MedicineOption.allCases.last {
-                                Divider()
-                                    .padding(.horizontal)
-                            }
+                        if option != MedicineOption.allCases.last {
+                            Divider()
+                                .padding(.horizontal)
                         }
                     }
-                    .background(Color.white)
-                    .cornerRadius(30)
-                    .padding(.horizontal)
-                    .padding(.top, 20)
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(Color.white)
+                .cornerRadius(30)
+                .padding(.horizontal)
+                .padding(.top, 20)
             }
-            
-            VStack(spacing: 0) {
-                NavigationLink(destination: EmergencyPrescriptionOrderStep5View(flowData: flowData, isPresented: $isPresented)) {
-                    Text("Continue")
-                        .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(.glass)
-                .controlSize(.large)
-                .disabled(selectedMedicines.isEmpty)
-                .simultaneousGesture(TapGesture().onEnded {
-                    flowData.selectedMedicines = selectedMedicines
-                })
-                .padding()
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .safeAreaInset(edge: .bottom) {
+            NavigationLink(destination: EmergencyPrescriptionOrderStep5View(flowData: flowData, isPresented: $isPresented)) {
+                Text("Continue")
+                    .frame(maxWidth: .infinity)
+                    .fontWeight(.semibold)
             }
+            .buttonStyle(.glass)
+            .controlSize(.large)
+            .disabled(selectedMedicines.isEmpty)
+            .simultaneousGesture(TapGesture().onEnded {
+                flowData.selectedMedicines = selectedMedicines
+            })
+            .padding()
         }
         .navigationBarTitleDisplayMode(.inline)
         .background(Color(red: 0.933, green: 0.922, blue: 0.949))
@@ -527,110 +525,108 @@ struct EmergencyPrescriptionOrderStep5View: View {
     @State private var showCloseAlert = false
     
     var body: some View {
-        VStack(spacing: 0) {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 20) {
-                    Text("Confirm your emergency request")
-                        .font(.title)
-                        .bold()
-                        .fixedSize(horizontal: false, vertical: true)
+        ScrollView {
+            VStack(alignment: .leading, spacing: 20) {
+                Text("Confirm your emergency request")
+                    .font(.title)
+                    .bold()
+                    .fixedSize(horizontal: false, vertical: true)
+                
+                VStack(alignment: .leading, spacing: 0) {
+                    Button(action: {
+                        showEditEmergencyReason = true
+                    }) {
+                        HStack {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("Emergency reason")
+                                    .font(.body)
+                                    .bold()
+                                    .foregroundColor(.gray)
+                                Text(flowData.emergencyReason)
+                                    .font(.body)
+                                    .foregroundColor(.nhsBlack)
+                                    .lineLimit(2)
+                            }
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .font(.system(size: 14, weight: .semibold))
+                                .foregroundColor(.primary.opacity(0.7))
+                        }
+                        .contentShape(Rectangle())
+                        .padding(.vertical, 12)
+                    }
+                    .buttonStyle(.plain)
                     
-                    VStack(alignment: .leading, spacing: 0) {
-                        Button(action: {
-                            showEditEmergencyReason = true
-                        }) {
-                            HStack {
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text("Emergency reason")
-                                        .font(.body)
-                                        .bold()
-                                        .foregroundColor(.gray)
-                                    Text(flowData.emergencyReason)
-                                        .font(.body)
-                                        .foregroundColor(.nhsBlack)
-                                        .lineLimit(2)
-                                }
-                                Spacer()
-                                Image(systemName: "chevron.right")
-                                    .font(.system(size: 14, weight: .semibold))
-                                    .foregroundColor(.primary.opacity(0.7))
+                    Divider()
+                    
+                    Button(action: {
+                        showEditPharmacy = true
+                    }) {
+                        HStack {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("Pharmacy")
+                                    .font(.body)
+                                    .bold()
+                                    .foregroundColor(.gray)
+                                Text(flowData.selectedPharmacy.name)
+                                    .font(.body)
+                                    .foregroundColor(.nhsBlack)
                             }
-                            .contentShape(Rectangle())
-                            .padding(.vertical, 12)
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .font(.system(size: 14, weight: .semibold))
+                                .foregroundColor(.primary.opacity(0.7))
                         }
-                        .buttonStyle(.plain)
-                        
-                        Divider()
-                        
-                        Button(action: {
-                            showEditPharmacy = true
-                        }) {
-                            HStack {
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text("Pharmacy")
-                                        .font(.body)
-                                        .bold()
-                                        .foregroundColor(.gray)
-                                    Text(flowData.selectedPharmacy.name)
-                                        .font(.body)
-                                        .foregroundColor(.nhsBlack)
-                                }
-                                Spacer()
-                                Image(systemName: "chevron.right")
-                                    .font(.system(size: 14, weight: .semibold))
-                                    .foregroundColor(.primary.opacity(0.7))
-                            }
-                            .contentShape(Rectangle())
-                            .padding(.vertical, 12)
-                        }
-                        .buttonStyle(.plain)
-                        
-                        Divider()
-                        
-                        Button(action: {
-                            showEditMedicines = true
-                        }) {
-                            HStack {
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text("Medicines")
-                                        .font(.body)
-                                        .bold()
-                                        .foregroundColor(.gray)
-                                    VStack(alignment: .leading, spacing: 2) {
-                                        ForEach(Array(flowData.selectedMedicines).sorted(by: { $0.name < $1.name }), id: \.self) { medicine in
-                                            Text(medicine.name)
-                                                .font(.body)
-                                                .foregroundColor(.nhsBlack)
-                                        }
+                        .contentShape(Rectangle())
+                        .padding(.vertical, 12)
+                    }
+                    .buttonStyle(.plain)
+                    
+                    Divider()
+                    
+                    Button(action: {
+                        showEditMedicines = true
+                    }) {
+                        HStack {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("Medicines")
+                                    .font(.body)
+                                    .bold()
+                                    .foregroundColor(.gray)
+                                VStack(alignment: .leading, spacing: 2) {
+                                    ForEach(Array(flowData.selectedMedicines).sorted(by: { $0.name < $1.name }), id: \.self) { medicine in
+                                        Text(medicine.name)
+                                            .font(.body)
+                                            .foregroundColor(.nhsBlack)
                                     }
                                 }
-                                Spacer()
-                                Image(systemName: "chevron.right")
-                                    .font(.system(size: 14, weight: .semibold))
-                                    .foregroundColor(.primary.opacity(0.7))
                             }
-                            .contentShape(Rectangle())
-                            .padding(.vertical, 12)
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .font(.system(size: 14, weight: .semibold))
+                                .foregroundColor(.primary.opacity(0.7))
                         }
-                        .buttonStyle(.plain)
+                        .contentShape(Rectangle())
+                        .padding(.vertical, 12)
                     }
-                    .padding(.horizontal)
-                    .background(Color.white)
-                    .cornerRadius(30)
+                    .buttonStyle(.plain)
                 }
-                .padding()
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal)
+                .background(Color.white)
+                .cornerRadius(30)
             }
-            
-            VStack(spacing: 0) {
-                NavigationLink(destination: EmergencyPrescriptionOrderStep6View(flowData: flowData, isPresented: $isPresented)) {
-                    Text("Submit emergency request")
-                        .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(.glass)
-                .controlSize(.large)
-                .padding()
+            .padding()
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .safeAreaInset(edge: .bottom) {
+            NavigationLink(destination: EmergencyPrescriptionOrderStep6View(flowData: flowData, isPresented: $isPresented)) {
+                Text("Submit emergency request")
+                    .frame(maxWidth: .infinity)
+                    .fontWeight(.semibold)
             }
+            .buttonStyle(.glass)
+            .controlSize(.large)
+            .padding()
         }
         .navigationBarTitleDisplayMode(.inline)
         .background(Color(red: 0.933, green: 0.922, blue: 0.949))
@@ -673,45 +669,42 @@ struct EmergencyEditReasonSheet: View {
     
     var body: some View {
         NavigationStack {
-            VStack(spacing: 0) {
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 20) {
-                        Text("Why is this an emergency?")
-                            .font(.title)
-                            .bold()
-                            .fixedSize(horizontal: false, vertical: true)
-                        
-                        Text("Please explain why you need this prescription urgently.")
-                            .font(.body)
-                            .foregroundColor(Color.nhsGrey1)
-                        
-                        TextEditor(text: $emergencyReason)
-                            .frame(minHeight: 150)
-                            .padding(16)
-                            .background(Color.nhsWhite)
-                            .cornerRadius(30)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 30)
-                                    .stroke(emergencyReason.isEmpty ? Color.nhsGrey4.opacity(0.5) : Color.nhsGrey4, lineWidth: 1)
-                            )
-                    }
-                    .padding()
-                    .frame(maxWidth: .infinity, alignment: .leading)
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
+                    Text("Why is this an emergency?")
+                        .font(.title)
+                        .bold()
+                        .fixedSize(horizontal: false, vertical: true)
+                    
+                    Text("Please explain why you need this prescription urgently.")
+                        .font(.body)
+                        .foregroundColor(Color.nhsGrey1)
+                    
+                    TextEditor(text: $emergencyReason)
+                        .frame(minHeight: 150)
+                        .padding(16)
+                        .background(Color.nhsWhite)
+                        .cornerRadius(30)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 30)
+                                .stroke(emergencyReason.isEmpty ? Color.nhsGrey4.opacity(0.5) : Color.nhsGrey4, lineWidth: 1)
+                        )
                 }
-                
-                VStack(spacing: 0) {
-                    Button(action: {
-                        flowData.emergencyReason = emergencyReason
-                        isPresented = false
-                    }) {
-                        Text("Continue")
-                            .frame(maxWidth: .infinity)
-                    }
-                    .buttonStyle(.glass)
-                    .controlSize(.large)
-                    .disabled(emergencyReason.isEmpty)
-                    .padding()
+                .padding()
+                .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            .safeAreaInset(edge: .bottom) {
+                Button(action: {
+                    flowData.emergencyReason = emergencyReason
+                    isPresented = false
+                }) {
+                    Text("Continue")
+                        .frame(maxWidth: .infinity)
                 }
+                .buttonStyle(.glass)
+                .controlSize(.large)
+                .disabled(emergencyReason.isEmpty)
+                .padding()
             }
             .navigationBarTitleDisplayMode(.inline)
             .background(Color(red: 0.933, green: 0.922, blue: 0.949))
@@ -725,9 +718,9 @@ struct EmergencyEditReasonSheet: View {
                     }
                 }
             }
-        }
-        .onAppear {
-            emergencyReason = flowData.emergencyReason
+            .onAppear {
+                emergencyReason = flowData.emergencyReason
+            }
         }
     }
 }
@@ -744,39 +737,71 @@ struct EmergencyEditMedicinesSheet: View {
     
     var body: some View {
         NavigationStack {
-            VStack(spacing: 0) {
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 0) {
-                        Text("Which medicines do you need urgently?")
-                            .font(.title)
-                            .bold()
-                            .fixedSize(horizontal: false, vertical: true)
-                            .padding(.horizontal)
-                            .padding(.top)
+            ScrollView {
+                VStack(alignment: .leading, spacing: 0) {
+                    Text("Which medicines do you need urgently?")
+                        .font(.title)
+                        .bold()
+                        .fixedSize(horizontal: false, vertical: true)
+                        .padding(.horizontal)
+                        .padding(.top)
+                    
+                    Text("Select the medicines you need for your emergency prescription.")
+                        .font(.body)
+                        .foregroundColor(Color.nhsGrey1)
+                        .padding(.horizontal)
+                        .padding(.top, 8)
+                    
+                    VStack(spacing: 0) {
+                        // Select all option
+                        HStack {
+                            Text("Select all")
+                                .foregroundColor(.nhsBlack)
+                                .font(.body)
+                                .bold()
+                            
+                            Spacer()
+                            
+                            Toggle("", isOn: Binding(
+                                get: { allMedicinesSelected },
+                                set: { isOn in
+                                    if isOn {
+                                        selectedMedicines = Set(MedicineOption.allCases)
+                                    } else {
+                                        selectedMedicines.removeAll()
+                                    }
+                                }
+                            ))
+                            .labelsHidden()
+                            .tint(Color.nhsGreen)
+                        }
+                        .padding()
+                        .background(Color.nhsWhite)
                         
-                        Text("Select the medicines you need for your emergency prescription.")
-                            .font(.body)
-                            .foregroundColor(Color.nhsGrey1)
+                        Divider()
                             .padding(.horizontal)
-                            .padding(.top, 8)
                         
-                        VStack(spacing: 0) {
-                            // Select all option
+                        // Individual medicines
+                        ForEach(MedicineOption.allCases) { option in
                             HStack {
-                                Text("Select all")
-                                    .foregroundColor(.nhsBlack)
-                                    .font(.body)
-                                    .bold()
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text(option.name)
+                                        .foregroundColor(.nhsBlack)
+                                        .font(.body)
+                                    Text(option.details)
+                                        .foregroundColor(.secondary)
+                                        .font(.subheadline)
+                                }
                                 
                                 Spacer()
                                 
                                 Toggle("", isOn: Binding(
-                                    get: { allMedicinesSelected },
+                                    get: { selectedMedicines.contains(option) },
                                     set: { isOn in
                                         if isOn {
-                                            selectedMedicines = Set(MedicineOption.allCases)
+                                            selectedMedicines.insert(option)
                                         } else {
-                                            selectedMedicines.removeAll()
+                                            selectedMedicines.remove(option)
                                         }
                                     }
                                 ))
@@ -786,66 +811,31 @@ struct EmergencyEditMedicinesSheet: View {
                             .padding()
                             .background(Color.nhsWhite)
                             
-                            Divider()
-                                .padding(.horizontal)
-                            
-                            // Individual medicines
-                            ForEach(MedicineOption.allCases) { option in
-                                HStack {
-                                    VStack(alignment: .leading, spacing: 4) {
-                                        Text(option.name)
-                                            .foregroundColor(.nhsBlack)
-                                            .font(.body)
-                                        Text(option.details)
-                                            .foregroundColor(.secondary)
-                                            .font(.subheadline)
-                                    }
-                                    
-                                    Spacer()
-                                    
-                                    Toggle("", isOn: Binding(
-                                        get: { selectedMedicines.contains(option) },
-                                        set: { isOn in
-                                            if isOn {
-                                                selectedMedicines.insert(option)
-                                            } else {
-                                                selectedMedicines.remove(option)
-                                            }
-                                        }
-                                    ))
-                                    .labelsHidden()
-                                    .tint(Color.nhsGreen)
-                                }
-                                .padding()
-                                .background(Color.nhsWhite)
-                                
-                                if option != MedicineOption.allCases.last {
-                                    Divider()
-                                        .padding(.horizontal)
-                                }
+                            if option != MedicineOption.allCases.last {
+                                Divider()
+                                    .padding(.horizontal)
                             }
                         }
-                        .background(Color.white)
-                        .cornerRadius(30)
-                        .padding(.horizontal)
-                        .padding(.top, 20)
                     }
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(Color.white)
+                    .cornerRadius(30)
+                    .padding(.horizontal)
+                    .padding(.top, 20)
                 }
-                
-                VStack(spacing: 0) {
-                    Button(action: {
-                        flowData.selectedMedicines = selectedMedicines
-                        isPresented = false
-                    }) {
-                        Text("Continue")
-                            .frame(maxWidth: .infinity)
-                    }
-                    .buttonStyle(.glass)
-                    .controlSize(.large)
-                    .disabled(selectedMedicines.isEmpty)
-                    .padding()
+                .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            .safeAreaInset(edge: .bottom) {
+                Button(action: {
+                    flowData.selectedMedicines = selectedMedicines
+                    isPresented = false
+                }) {
+                    Text("Continue")
+                        .frame(maxWidth: .infinity)
                 }
+                .buttonStyle(.glass)
+                .controlSize(.large)
+                .disabled(selectedMedicines.isEmpty)
+                .padding()
             }
             .navigationBarTitleDisplayMode(.inline)
             .background(Color(red: 0.933, green: 0.922, blue: 0.949))
@@ -859,9 +849,9 @@ struct EmergencyEditMedicinesSheet: View {
                     }
                 }
             }
-        }
-        .onAppear {
-            selectedMedicines = flowData.selectedMedicines
+            .onAppear {
+                selectedMedicines = flowData.selectedMedicines
+            }
         }
     }
 }
