@@ -1,0 +1,15 @@
+{
+  "originHash" : "da4465913d285a5b31e43b330d6509f36a8d1dcc94bcf682d41191ac8786e9a5",
+  "pins" : [
+    {
+      "identity" : "nhsapp-prototype-designsystem_ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/NHSDigital/nhsapp-prototype-DesignSystem_iOS",
+      "state" : {
+        "branch" : "main",
+        "revision" : "014b44bdc636fe0958ede5069e4bc578bcfa43d2"
+      }
+    }
+  ],
+  "version" : 3
+}

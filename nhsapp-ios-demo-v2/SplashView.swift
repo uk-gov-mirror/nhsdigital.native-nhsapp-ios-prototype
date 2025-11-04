@@ -1,4 +1,5 @@
 import SwiftUI
+import DesignSystem
 
 struct SplashView: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -9,7 +10,7 @@ struct SplashView: View {
 
     var body: some View {
         ZStack {
-            Color("NHSBlue").ignoresSafeArea()
+            Color(nhsColor: .blue).ignoresSafeArea()
 
             Image("nhs_logo") // same asset as Launch Screen
                 .resizable()

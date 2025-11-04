@@ -114,6 +114,7 @@ struct HomeView: View {
                             } label: {
                                 Image(systemName: "xmark.circle.fill")
                                     .font(.title2)
+                                    
                                     .foregroundColor(Color("NHSAppDarkPurple"))
                                     .accessibilityLabel("Dismiss prescription card")
                             }
