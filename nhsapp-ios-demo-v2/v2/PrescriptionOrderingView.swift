@@ -232,13 +232,13 @@ struct PrescriptionOrderStep2View: View {
                 }
             }
         }
-        .alert("Are you sure you want to close this form?", isPresented: $showCloseAlert) {
-            Button("Continue with form", role: .cancel) { }
-            Button("Exit form", role: .destructive) {
+        .alert("Are you sure you want to exit this service?", isPresented: $showCloseAlert) {
+            Button("No, keep working", role: .cancel) { }
+            Button("Yes, exit this service", role: .destructive) {
                 isPresented = false
             }
         } message: {
-            Text("Your progress will not be saved.")
+            Text("Your progress will not be saved if you exit this service.")
         }
         .sheet(isPresented: $showChangePharmacy) {
             ChangePharmacySheet(flowData: flowData, isPresented: $showChangePharmacy)
