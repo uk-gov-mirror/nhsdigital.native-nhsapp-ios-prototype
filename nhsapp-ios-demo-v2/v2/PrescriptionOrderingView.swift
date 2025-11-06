@@ -68,9 +68,6 @@ struct PrescriptionOrderStep1ContentView: View {
                 
                     Text("Use this service to request a repeat prescription from your GP surgery.")
                         .font(.body)
-                    
-                    Text("Use this service to request a repeat prescription from your GP surgery. Use this service to request a repeat prescription from your GP surgery. Use this service to request a repeat prescription from your GP surgery. Use this service to request a repeat prescription from your GP surgery. Use this service to request a repeat prescription from your GP surgery. Use this service to request a repeat prescription from your GP surgery. Use this service to request a repeat prescription from your GP surgery. Use this service to request a repeat prescription from your GP surgery. Use this service to request a repeat prescription from your GP surgery. Use this service to request a repeat prescription from your GP surgery. Use this service to request a repeat prescription from your GP surgery. Use this service to request a repeat prescription from your GP surgery.")
-                        .font(.body)
                         
                     // Inset text component
                     HStack(spacing: 0) {
