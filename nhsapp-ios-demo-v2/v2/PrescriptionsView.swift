@@ -60,6 +60,7 @@ struct PrescriptionsView: View {
             }
             
             RowLink(title: "View all prescriptions") { PrescriptionProgressView() }
+                .rowStyle(.white)
 
             Section {
                 RowLink(title: "Request a repeat prescription") { DetailView(index: 0) }
@@ -81,6 +82,7 @@ struct PrescriptionsView: View {
             } destination: {
                 DetailView(index: 0)
             }
+            .rowStyle(.white)
             
             Section {
                 RowLink(title: "Hospital and other medicines") { DetailView(index: 0) }
