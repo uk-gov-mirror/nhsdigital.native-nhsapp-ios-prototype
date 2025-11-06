@@ -68,6 +68,9 @@ struct PrescriptionOrderStep1ContentView: View {
                 
                     Text("Use this service to request a repeat prescription from your GP surgery.")
                         .font(.body)
+                    
+                    Text("Use this service to request a repeat prescription from your GP surgery. Use this service to request a repeat prescription from your GP surgery. Use this service to request a repeat prescription from your GP surgery. Use this service to request a repeat prescription from your GP surgery. Use this service to request a repeat prescription from your GP surgery. Use this service to request a repeat prescription from your GP surgery. Use this service to request a repeat prescription from your GP surgery. Use this service to request a repeat prescription from your GP surgery. Use this service to request a repeat prescription from your GP surgery. Use this service to request a repeat prescription from your GP surgery. Use this service to request a repeat prescription from your GP surgery. Use this service to request a repeat prescription from your GP surgery.")
+                        .font(.body)
                         
                     // Inset text component
                     HStack(spacing: 0) {
@@ -106,23 +109,21 @@ struct PrescriptionOrderStep1ContentView: View {
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
-            
-            VStack(spacing: 0) {
-                NavigationLink(destination: PrescriptionOrderStep2View(flowData: flowData, isPresented: $isPresented)) {
-                    Text("Start now")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.nhsGreen)
-                        .cornerRadius(30)
-                }
-                .buttonStyle(.plain)
-                .padding()
-            }
         }
         .navigationBarTitleDisplayMode(.inline)
         .background(Color("NHSGrey5"))
+        .safeAreaInset(edge: .bottom) {
+            NavigationLink(destination: PrescriptionOrderStep2View(flowData: flowData, isPresented: $isPresented)) {
+                Text("Start now")
+                    .frame(maxWidth: .infinity)
+                    .fontWeight(.semibold)
+            }
+            .buttonStyle(.borderedProminent)
+            .tint(.nhsGreen)
+            .controlSize(.large)
+            .padding()
+//            .background(Color("NHSGrey5"))
+        }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button(action: {
@@ -205,23 +206,20 @@ struct PrescriptionOrderStep2View: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
-            
-            VStack(spacing: 0) {
-                NavigationLink(destination: PrescriptionOrderStep3View(flowData: flowData, isPresented: $isPresented)) {
-                    Text("Continue")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.nhsGreen)
-                        .cornerRadius(30)
-                }
-                .buttonStyle(.plain)
-                .padding()
-            }
         }
         .navigationBarTitleDisplayMode(.inline)
         .background(Color("NHSGrey5"))
+        .safeAreaInset(edge: .bottom) {
+            NavigationLink(destination: PrescriptionOrderStep3View(flowData: flowData, isPresented: $isPresented)) {
+                Text("Continue")
+                    .frame(maxWidth: .infinity)
+                    .fontWeight(.semibold)
+            }
+            .buttonStyle(.glass)
+            .controlSize(.large)
+            .padding()
+            .background(Color("NHSGrey5"))
+        }
         .environment(flowData)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
@@ -312,28 +310,26 @@ struct ChangePharmacySheet: View {
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                 }
-                
-                VStack(spacing: 0) {
-                    Button(action: {
-                        if let pharmacy = selectedPharmacy {
-                            flowData.selectedPharmacy = pharmacy
-                            isPresented = false
-                        }
-                    }) {
-                        Text("Continue")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(selectedPharmacy != nil ? Color.nhsGreen : Color.nhsGreen)
-                            .cornerRadius(30)
-                    }
-                    .disabled(selectedPharmacy == nil)
-                    .padding()
-                }
             }
             .navigationBarTitleDisplayMode(.inline)
             .background(Color("NHSGrey5"))
+            .safeAreaInset(edge: .bottom) {
+                Button(action: {
+                    if let pharmacy = selectedPharmacy {
+                        flowData.selectedPharmacy = pharmacy
+                        isPresented = false
+                    }
+                }) {
+                    Text("Continue")
+                        .frame(maxWidth: .infinity)
+                        .fontWeight(.semibold)
+                }
+                .buttonStyle(.glass)
+                .controlSize(.large)
+                .disabled(selectedPharmacy == nil)
+                .padding()
+                .background(Color("NHSGrey5"))
+            }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button(action: {
@@ -470,27 +466,24 @@ struct PrescriptionOrderStep3View: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
-            
-            VStack(spacing: 0) {
-                NavigationLink(destination: PrescriptionOrderStep4View(flowData: flowData, isPresented: $isPresented)) {
-                    Text("Continue")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(!selectedMedicines.isEmpty ? Color.nhsGreen : Color.nhsGreen)
-                        .cornerRadius(30)
-                }
-                .buttonStyle(.plain)
-                .disabled(selectedMedicines.isEmpty)
-                .simultaneousGesture(TapGesture().onEnded {
-                    flowData.selectedMedicines = selectedMedicines
-                })
-                .padding()
-            }
         }
         .navigationBarTitleDisplayMode(.inline)
         .background(Color("NHSGrey5"))
+        .safeAreaInset(edge: .bottom) {
+            NavigationLink(destination: PrescriptionOrderStep4View(flowData: flowData, isPresented: $isPresented)) {
+                Text("Continue")
+                    .frame(maxWidth: .infinity)
+                    .fontWeight(.semibold)
+            }
+            .buttonStyle(.glass)
+            .controlSize(.large)
+            .disabled(selectedMedicines.isEmpty)
+            .simultaneousGesture(TapGesture().onEnded {
+                flowData.selectedMedicines = selectedMedicines
+            })
+            .padding()
+            .background(Color("NHSGrey5"))
+        }
         .environment(flowData)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
@@ -548,26 +541,23 @@ struct PrescriptionOrderStep4View: View {
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
-            
-            VStack(spacing: 0) {
-                NavigationLink(destination: PrescriptionOrderStep5View(flowData: flowData, isPresented: $isPresented)) {
-                    Text("Continue")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.nhsGreen)
-                        .cornerRadius(30)
-                }
-                .buttonStyle(.plain)
-                .simultaneousGesture(TapGesture().onEnded {
-                    flowData.additionalInformation = additionalInformation
-                })
-                .padding()
-            }
         }
         .navigationBarTitleDisplayMode(.inline)
         .background(Color("NHSGrey5"))
+        .safeAreaInset(edge: .bottom) {
+            NavigationLink(destination: PrescriptionOrderStep5View(flowData: flowData, isPresented: $isPresented)) {
+                Text("Continue")
+                    .frame(maxWidth: .infinity)
+                    .fontWeight(.semibold)
+            }
+            .buttonStyle(.glass)
+            .controlSize(.large)
+            .simultaneousGesture(TapGesture().onEnded {
+                flowData.additionalInformation = additionalInformation
+            })
+            .padding()
+            .background(Color("NHSGrey5"))
+        }
         .environment(flowData)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
@@ -702,23 +692,20 @@ struct PrescriptionOrderStep5View: View {
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
-            
-            VStack(spacing: 0) {
-                NavigationLink(destination: PrescriptionOrderStep6View(flowData: flowData, isPresented: $isPresented)) {
-                    Text("Confirm request")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.nhsGreen)
-                        .cornerRadius(30)
-                }
-                .buttonStyle(.plain)
-                .padding()
-            }
         }
         .navigationBarTitleDisplayMode(.inline)
         .background(Color("NHSGrey5"))
+        .safeAreaInset(edge: .bottom) {
+            NavigationLink(destination: PrescriptionOrderStep6View(flowData: flowData, isPresented: $isPresented)) {
+                Text("Confirm request")
+                    .frame(maxWidth: .infinity)
+                    .fontWeight(.semibold)
+            }
+            .buttonStyle(.glass)
+            .controlSize(.large)
+            .padding()
+            .background(Color("NHSGrey5"))
+        }
         .environment(flowData)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
@@ -869,26 +856,24 @@ struct EditMedicinesSheet: View {
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                 }
-                
-                VStack(spacing: 0) {
-                    Button(action: {
-                        flowData.selectedMedicines = selectedMedicines
-                        isPresented = false
-                    }) {
-                        Text("Continue")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(!selectedMedicines.isEmpty ? Color.nhsGreen : Color.nhsGreen)
-                            .cornerRadius(30)
-                    }
-                    .disabled(selectedMedicines.isEmpty)
-                    .padding()
-                }
             }
             .navigationBarTitleDisplayMode(.inline)
             .background(Color("NHSGrey5"))
+            .safeAreaInset(edge: .bottom) {
+                Button(action: {
+                    flowData.selectedMedicines = selectedMedicines
+                    isPresented = false
+                }) {
+                    Text("Continue")
+                        .frame(maxWidth: .infinity)
+                        .fontWeight(.semibold)
+                }
+                .buttonStyle(.glass)
+                .controlSize(.large)
+                .disabled(selectedMedicines.isEmpty)
+                .padding()
+                .background(Color("NHSGrey5"))
+            }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button(action: {
@@ -938,25 +923,23 @@ struct EditInformationSheet: View {
                     .padding()
                     .frame(maxWidth: .infinity, alignment: .leading)
                 }
-                
-                VStack(spacing: 0) {
-                    Button(action: {
-                        flowData.additionalInformation = additionalInformation
-                        isPresented = false
-                    }) {
-                        Text("Continue")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.nhsGreen)
-                            .cornerRadius(30)
-                    }
-                    .padding()
-                }
             }
             .navigationBarTitleDisplayMode(.inline)
             .background(Color("NHSGrey5"))
+            .safeAreaInset(edge: .bottom) {
+                Button(action: {
+                    flowData.additionalInformation = additionalInformation
+                    isPresented = false
+                }) {
+                    Text("Continue")
+                        .frame(maxWidth: .infinity)
+                        .fontWeight(.semibold)
+                }
+                .buttonStyle(.glass)
+                .controlSize(.large)
+                .padding()
+                .background(Color("NHSGrey5"))
+            }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button(action: {
