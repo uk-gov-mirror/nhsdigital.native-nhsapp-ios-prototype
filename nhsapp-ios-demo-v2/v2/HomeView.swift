@@ -2,35 +2,37 @@ import SwiftUI
 
 struct HomeView: View {
 
-    // Use an Identifiable item so the cover only shows when non-nil
     struct LinkItem: Identifiable, Equatable {
         let id = UUID()
         let title: String
         let url: URL
     }
 
-    @State private var selectedLink: LinkItem? = nil
-    
+    enum Cover: Identifiable, Equatable {
+        case safari(LinkItem)
+        case prescription
+        var id: String {
+            switch self {
+            case .safari(let item): return "safari-\(item.id)"
+            case .prescription:     return "prescription"
+            }
+        }
+    }
+
+    @State private var activeCover: Cover? = nil
     @AccessibilityFocusState private var isSafariFocused: Bool
 
-    // State variables for toggle examples
     @State private var toggleOne = true
     @State private var toggleTwo = false
-    
-    // Start hidden so we can animate it in after a delay
     @State private var showPrescriptionCard = false
-    
-    @State private var showPrescription = false
 
     var body: some View {
         NavigationStack {
             List {
-                
-                // Prescription card (no persistence; shows after delay on each appearance)
+                // Prescription card (presenter lives OUTSIDE this conditional)
                 if showPrescriptionCard {
                     Section {
                         ZStack(alignment: .topTrailing) {
-                                
                             HStack(alignment: .top) {
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text("Repeat prescription")
@@ -60,45 +62,35 @@ struct HomeView: View {
                                 Image(systemName: "xmark.circle.fill")
                                     .font(.title2)
                                     .foregroundColor(Color("NHSAppDarkGreen"))
-                                    .accessibilityLabel("Dismiss prescription")
                             }
                             .accessibilityLabel("Dismiss prescription")
                             .accessibilityHint("Hides the ‘Prescription is ready to collect’ message.")
-                            
                         }
-                        
+
                         VStack(alignment: .leading, spacing: 8) {
                             HStack(spacing: 8) {
                                 Image(systemName: "circle.fill")
                                     .foregroundColor(Color("NHSGreen"))
                                     .font(.system(size: 12))
-                                
                                 Text("Ready to collect")
                                     .foregroundColor(Color("NHSAppDarkGreen"))
                                     .font(.subheadline)
                                     .bold()
                             }
-                            
                         }
                     }
                     .rowStyle(.paleGreen)
-                    .contentShape(Rectangle()) // Makes entire area tappable
+                    .contentShape(Rectangle())
                     .onTapGesture {
-                        showPrescription = true
-                    }
-                    .fullScreenCover(isPresented: $showPrescription) {
-                        PrescriptionDetailView()
+                        activeCover = .prescription
                     }
                     .transition(.move(edge: .top).combined(with: .opacity))
                 }
-                
-                // Navigation links
+
+                // Navigation links (unchanged)
                 Section {
                     RowLink {
-                        Label {
-                            Text("Prescriptions")
-                                .foregroundColor(.text)
-                        } icon: {
+                        Label { Text("Prescriptions").foregroundColor(.text) } icon: {
                             Image(systemName: "pills.fill")
                                 .font(.system(size: 12))
                                 .foregroundColor(Color("NHSBlue"))
@@ -109,10 +101,7 @@ struct HomeView: View {
                     } destination: { PrescriptionsView() }
 
                     RowLink {
-                        Label {
-                            Text("Appointments")
-                                .foregroundColor(.text)
-                        } icon: {
+                        Label { Text("Appointments").foregroundColor(.text) } icon: {
                             Image(systemName: "calendar.badge.clock")
                                 .font(.system(size: 12))
                                 .foregroundColor(Color("NHSBlue"))
@@ -123,10 +112,7 @@ struct HomeView: View {
                     } destination: { AppointmentsView() }
 
                     RowLink {
-                        Label {
-                            Text("Test results")
-                                .foregroundColor(.text)
-                        } icon: {
+                        Label { Text("Test results").foregroundColor(.text) } icon: {
                             Image(systemName: "waveform.path.ecg")
                                 .font(.system(size: 12))
                                 .foregroundColor(Color("NHSBlue"))
@@ -137,10 +123,7 @@ struct HomeView: View {
                     } destination: { TestResultsView() }
 
                     RowLink {
-                        Label {
-                            Text("Vaccinations")
-                                .foregroundColor(.text)
-                        } icon: {
+                        Label { Text("Vaccinations").foregroundColor(.text) } icon: {
                             Image(systemName: "syringe")
                                 .font(.system(size: 12))
                                 .foregroundColor(Color("NHSBlue"))
@@ -151,10 +134,7 @@ struct HomeView: View {
                     } destination: { VaccinationsView() }
 
                     RowLink {
-                        Label {
-                            Text("Health conditions")
-                                .foregroundColor(.text)
-                        } icon: {
+                        Label { Text("Health conditions").foregroundColor(.text) } icon: {
                             Image(systemName: "cross.case.fill")
                                 .font(.system(size: 12))
                                 .foregroundColor(Color("NHSBlue"))
@@ -165,10 +145,7 @@ struct HomeView: View {
                     } destination: { HealthConditionsView() }
 
                     RowLink {
-                        Label {
-                            Text("Documents")
-                                .foregroundColor(.text)
-                        } icon: {
+                        Label { Text("Documents").foregroundColor(.text) } icon: {
                             Image(systemName: "doc.text.fill")
                                 .font(.system(size: 12))
                                 .foregroundColor(Color("NHSBlue"))
@@ -180,27 +157,25 @@ struct HomeView: View {
                 }
                 .rowStyle(.white)
 
-
-                // External link rows (multiple)
+                // External links -> drive via the same enum
                 Section {
                     ExternalLinkRow(title: "Check your symptoms using 111 online",
                                     url: URL(string: "https://111.nhs.uk/")!) { url in
-                        selectedLink = LinkItem(title: "Check your symptoms using 111 online", url: url)
+                        activeCover = .safari(.init(title: "Check your symptoms using 111 online", url: url))
                     }
                     ExternalLinkRow(title: "Health A to Z",
                                     url: URL(string: "https://www.nhs.uk")!) { url in
-                        selectedLink = LinkItem(title: "Health A to Z", url: url)
+                        activeCover = .safari(.init(title: "Health A to Z", url: url))
                     }
                     ExternalLinkRow(title: "Find services near you",
                                     url: URL(string: "https://www.nhs.uk")!) { url in
-                        selectedLink = LinkItem(title: "Find services near you", url: url)
+                        activeCover = .safari(.init(title: "Find services near you", url: url))
                     }
                 } header: {
                     Text("NHS information and support")
                 }
                 .rowStyle(.white)
-                
-                // Campaign card
+
                 Section {
                     CampaignCard(
                         imageName: "campaign_img",
@@ -213,13 +188,6 @@ struct HomeView: View {
                     }
                 }
                 .campaignCardRowStyle()
-
-            }
-            .fullScreenCover(item: $selectedLink) { link in
-              SafariView(url: link.url)
-                .ignoresSafeArea()
-                .accessibilityFocused($isSafariFocused)
-                .onAppear { isSafariFocused = true }
             }
             .nhsListStyle()
             .navigationTitle("Home")
@@ -227,11 +195,22 @@ struct HomeView: View {
         }
         .background(Color.pageBackground)
         .onAppear {
-            // Re-schedule every time HomeView appears
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 withAnimation(.easeInOut(duration: 0.5)) {
                     showPrescriptionCard = true
                 }
+            }
+        }
+        // Single, stable presenter here
+        .fullScreenCover(item: $activeCover) { cover in
+            switch cover {
+            case .prescription:
+                PrescriptionDetailView()
+            case .safari(let link):
+                SafariView(url: link.url)
+                    .ignoresSafeArea()
+                    .accessibilityFocused($isSafariFocused)
+                    .onAppear { isSafariFocused = true }
             }
         }
     }
