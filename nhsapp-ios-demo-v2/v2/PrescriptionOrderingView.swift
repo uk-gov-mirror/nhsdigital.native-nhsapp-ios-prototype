@@ -215,10 +215,10 @@ struct PrescriptionOrderStep2View: View {
                     .frame(maxWidth: .infinity)
                     .fontWeight(.semibold)
             }
-            .buttonStyle(.glass)
+            .buttonStyle(.borderedProminent)
+            .tint(.nhsGreen)
             .controlSize(.large)
             .padding()
-            .background(Color("NHSGrey5"))
         }
         .environment(flowData)
         .toolbar {
@@ -324,11 +324,11 @@ struct ChangePharmacySheet: View {
                         .frame(maxWidth: .infinity)
                         .fontWeight(.semibold)
                 }
-                .buttonStyle(.glass)
+                .buttonStyle(.borderedProminent)
+                .tint(.nhsGreen)
                 .controlSize(.large)
                 .disabled(selectedPharmacy == nil)
                 .padding()
-                .background(Color("NHSGrey5"))
             }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -475,14 +475,14 @@ struct PrescriptionOrderStep3View: View {
                     .frame(maxWidth: .infinity)
                     .fontWeight(.semibold)
             }
-            .buttonStyle(.glass)
+            .buttonStyle(.borderedProminent)
+            .tint(.nhsGreen)
             .controlSize(.large)
             .disabled(selectedMedicines.isEmpty)
             .simultaneousGesture(TapGesture().onEnded {
                 flowData.selectedMedicines = selectedMedicines
             })
             .padding()
-            .background(Color("NHSGrey5"))
         }
         .environment(flowData)
         .toolbar {
@@ -550,13 +550,13 @@ struct PrescriptionOrderStep4View: View {
                     .frame(maxWidth: .infinity)
                     .fontWeight(.semibold)
             }
-            .buttonStyle(.glass)
+            .buttonStyle(.borderedProminent)
+            .tint(.nhsGreen)
             .controlSize(.large)
             .simultaneousGesture(TapGesture().onEnded {
                 flowData.additionalInformation = additionalInformation
             })
             .padding()
-            .background(Color("NHSGrey5"))
         }
         .environment(flowData)
         .toolbar {
@@ -701,10 +701,10 @@ struct PrescriptionOrderStep5View: View {
                     .frame(maxWidth: .infinity)
                     .fontWeight(.semibold)
             }
-            .buttonStyle(.glass)
+            .buttonStyle(.borderedProminent)
+            .tint(.nhsGreen)
             .controlSize(.large)
             .padding()
-            .background(Color("NHSGrey5"))
         }
         .environment(flowData)
         .toolbar {
@@ -868,11 +868,11 @@ struct EditMedicinesSheet: View {
                         .frame(maxWidth: .infinity)
                         .fontWeight(.semibold)
                 }
-                .buttonStyle(.glass)
+                .buttonStyle(.borderedProminent)
+                .tint(.nhsGreen)
                 .controlSize(.large)
                 .disabled(selectedMedicines.isEmpty)
                 .padding()
-                .background(Color("NHSGrey5"))
             }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -935,10 +935,10 @@ struct EditInformationSheet: View {
                         .frame(maxWidth: .infinity)
                         .fontWeight(.semibold)
                 }
-                .buttonStyle(.glass)
+                .buttonStyle(.borderedProminent)
+                .tint(.nhsGreen)
                 .controlSize(.large)
                 .padding()
-                .background(Color("NHSGrey5"))
             }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
