@@ -89,6 +89,19 @@ struct PrescriptionOrderStep1ContentView: View {
 
                     Text("For urgent medical advice, call 111 or visit 111.nhs.uk")
                         .font(.body)
+                    
+                    // Ghost button for 111 Online
+                    RowLink {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("111 Online")
+                                .padding(.bottom, 4)
+                        }
+                        .padding(.vertical, 16)
+                    } destination: { DetailView(index: 0) }
+                    .padding(.horizontal, 20)
+                    .background(Color.clear)
+                    .overlay(RoundedRectangle(cornerRadius: 30).stroke(Color.nhsGrey4, lineWidth: 1))
+                    
                 }
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)
