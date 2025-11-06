@@ -38,7 +38,7 @@ struct PrescriptionsView: View {
                         .accessibilityHint("Hides the 'Ready to collect' message.")
                         
                     }
-                    RowLink(title: "View prescription", chevronColor: Color("NHSAppDarkPurple").opacity(0.7)) { DetailView(index: 0) }
+                    RowLink(title: "View prescription") { DetailView(index: 0) }
                 }
                 .rowStyle(.palePurple)
                 .transition(.move(edge: .top).combined(with: .opacity))

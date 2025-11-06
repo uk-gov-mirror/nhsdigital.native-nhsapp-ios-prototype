@@ -125,7 +125,7 @@ struct ComponentView: View {
                     }
                     .padding(.vertical, 4)
                     
-                    RowLink(title: "Link", chevronColor: Color("NHSAppDarkBlue").opacity(0.7)) {
+                    RowLink(title: "Link") {
                             DetailView(index: 6)
                         }
     

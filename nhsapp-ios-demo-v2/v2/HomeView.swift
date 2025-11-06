@@ -58,7 +58,7 @@ struct HomeView: View {
                                 .accessibilityHint("Hides the 'Ready to collect' message.")
                                 
                             }
-                            RowLink(title: "View prescription", chevronColor: Color("NHSAppDarkPurple").opacity(0.7)) { DetailView(index: 0) }
+                            RowLink(title: "View prescription") { DetailView(index: 0) }
                         }
                         .rowStyle(.palePurple)
                         .transition(.move(edge: .top).combined(with: .opacity))
@@ -94,88 +94,88 @@ struct HomeView: View {
                         RowLink {
                             Label {
                                 Text("Prescriptions")
-                                    .foregroundColor(.text)
+                                    .foregroundColor(.nhsWhite)
                             } icon: {
                                 Image(systemName: "pills.fill")
-                                    .font(.system(size: 12))
-                                    .foregroundColor(Color.white)
+                                    .font(.system(size: 16))
+                                    .foregroundColor(Color.nhsWhite)
                                     .padding(8)
-                                    .background(Color("NHSPurple"))
-                                    .clipShape(Circle())
+//                                    .background(Color("NHSPurple"))
+//                                    .clipShape(Circle())
                             }
                         } destination: { PrescriptionsView() }
 
                         RowLink {
                             Label {
                                 Text("Appointments")
-                                    .foregroundColor(.text)
+                                    .foregroundColor(.nhsWhite)
                             } icon: {
                                 Image(systemName: "calendar.badge.clock")
-                                    .font(.system(size: 12))
-                                    .foregroundColor(Color.white)
+                                    .font(.system(size: 16))
+                                    .foregroundColor(Color.nhsWhite)
                                     .padding(8)
-                                    .background(Color("NHSBlue"))
-                                    .clipShape(Circle())
+//                                    .background(Color("NHSBlue"))
+//                                    .clipShape(Circle())
                             }
                         } destination: { AppointmentsView() }
 
                         RowLink {
                             Label {
                                 Text("Test results")
-                                    .foregroundColor(.text)
+                                    .foregroundColor(.nhsWhite)
                             } icon: {
                                 Image(systemName: "waveform.path.ecg")
-                                    .font(.system(size: 12))
-                                    .foregroundColor(Color.white)
+                                    .font(.system(size: 16))
+                                    .foregroundColor(Color.nhsWhite)
                                     .padding(8)
-                                    .background(Color("NHSPink"))
-                                    .clipShape(Circle())
+//                                    .background(Color("NHSPink"))
+//                                    .clipShape(Circle())
                             }
                         } destination: { TestResultsView() }
 
                         RowLink {
                             Label {
                                 Text("Vaccinations")
-                                    .foregroundColor(.text)
+                                    .foregroundColor(.nhsWhite)
                             } icon: {
                                 Image(systemName: "syringe")
-                                    .font(.system(size: 12))
-                                    .foregroundColor(Color.white)
+                                    .font(.system(size: 16))
+                                    .foregroundColor(Color.nhsWhite)
                                     .padding(8)
-                                    .background(Color("NHSOrange"))
-                                    .clipShape(Circle())
+//                                    .background(Color("NHSOrange"))
+//                                    .clipShape(Circle())
                             }
                         } destination: { VaccinationsView() }
 
                         RowLink {
                             Label {
                                 Text("Health conditions")
-                                    .foregroundColor(.text)
+                                    .foregroundColor(.nhsWhite)
                             } icon: {
                                 Image(systemName: "cross.case.fill")
-                                    .font(.system(size: 12))
-                                    .foregroundColor(Color.white)
+                                    .font(.system(size: 16))
+                                    .foregroundColor(Color.nhsWhite)
                                     .padding(8)
-                                    .background(Color("NHSGreen"))
-                                    .clipShape(Circle())
+//                                    .background(Color("NHSGreen"))
+//                                    .clipShape(Circle())
                             }
                         } destination: { HealthConditionsView() }
 
                         RowLink {
                             Label {
                                 Text("Documents")
-                                    .foregroundColor(.text)
+                                    .foregroundColor(.nhsWhite)
                             } icon: {
                                 Image(systemName: "doc.text.fill")
-                                    .font(.system(size: 12))
-                                    .foregroundColor(Color.white)
+                                    .font(.system(size: 16))
+                                    .foregroundColor(Color.nhsWhite)
                                     .padding(8)
-                                    .background(Color("NHSRed"))
-                                    .clipShape(Circle())
+//                                    .background(Color(.nhsWhite))
+//                                    .clipShape(Circle())
                             }
                         } destination: { DocumentsView() }
                     }
-                    .rowStyle(.white)
+                    .rowStyle(.blue)
 
 
                     // External link rows (multiple)
