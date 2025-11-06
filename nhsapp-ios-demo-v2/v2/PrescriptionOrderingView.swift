@@ -116,8 +116,7 @@ struct PrescriptionOrderStep1ContentView: View {
                     print("DEBUG: X button tapped, setting isPresented to false")
                     isPresented = false
                 }) {
-                    Image(systemName: "xmark")
-                        .accessibilityLabel("Close")
+                    Text("Close")
                 }
             }
         }
@@ -216,8 +215,7 @@ struct PrescriptionOrderStep2View: View {
                 Button(action: {
                     showCloseAlert = true
                 }) {
-                    Image(systemName: "xmark")
-                        .accessibilityLabel("Close")
+                    Text("Close")
                 }
             }
         }
@@ -328,8 +326,7 @@ struct ChangePharmacySheet: View {
                     Button(action: {
                         isPresented = false
                     }) {
-                        Image(systemName: "xmark")
-                            .accessibilityLabel("Close")
+                        Text("Cancel")
                     }
                 }
             }
@@ -487,8 +484,7 @@ struct PrescriptionOrderStep3View: View {
                 Button(action: {
                     showCloseAlert = true
                 }) {
-                    Image(systemName: "xmark")
-                        .accessibilityLabel("Close")
+                    Text("Close")
                 }
             }
         }
@@ -565,8 +561,7 @@ struct PrescriptionOrderStep4View: View {
                 Button(action: {
                     showCloseAlert = true
                 }) {
-                    Image(systemName: "xmark")
-                        .accessibilityLabel("Close")
+                    Text("Close")
                 }
             }
         }
@@ -597,10 +592,14 @@ struct PrescriptionOrderStep5View: View {
         VStack(spacing: 0) {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
-                    Text("Confirm your request details")
+                    Text("Check your answers before submitting your prescription request")
                         .font(.title)
                         .bold()
                         .fixedSize(horizontal: false, vertical: true)
+                    
+                    Text("Please review your request and make changes if anything doesn't look right.")
+                        .font(.body)
+                        .foregroundColor(.secondary)
                     
                     VStack(alignment: .leading, spacing: 0) {
                         Button(action: {
@@ -713,8 +712,7 @@ struct PrescriptionOrderStep5View: View {
                 Button(action: {
                     showCloseAlert = true
                 }) {
-                    Image(systemName: "xmark")
-                        .accessibilityLabel("Close")
+                    Text("Close")
                 }
             }
         }
@@ -883,8 +881,7 @@ struct EditMedicinesSheet: View {
                     Button(action: {
                         isPresented = false
                     }) {
-                        Image(systemName: "xmark")
-                            .accessibilityLabel("Close")
+                        Text("Cancel")
                     }
                 }
             }
@@ -952,8 +949,7 @@ struct EditInformationSheet: View {
                     Button(action: {
                         isPresented = false
                     }) {
-                        Image(systemName: "xmark")
-                            .accessibilityLabel("Close")
+                        Text("Cancel")
                     }
                 }
             }
