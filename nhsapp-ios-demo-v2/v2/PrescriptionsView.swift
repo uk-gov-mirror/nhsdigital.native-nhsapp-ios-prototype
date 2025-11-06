@@ -2,24 +2,36 @@ import SwiftUI
 
 struct PrescriptionsView: View {
     
+    @State private var showPrescription = false
     @State private var showPrescriptionCard = true
 
     var body: some View {
         List {
             
-            // Prescription card - dismissable
+            // Prescription card (no persistence; shows after delay on each appearance)
             if showPrescriptionCard {
                 Section {
                     ZStack(alignment: .topTrailing) {
                             
-                        HStack(alignment: .center) {
-                            VStack(alignment: .leading, spacing: 8) {
-                                Text("Ready to collect")
+                        HStack(alignment: .top) {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("Repeat prescription")
+                                    .bold()
+                                    .font(.footnote)
+                                    .padding(.bottom, 4)
+                                Text("Ramipril")
                                     .font(.body)
                                     .bold()
-                                Text("Ramipril 50mg | Order 557579689")
+                                    .foregroundStyle(Color("NHSBlack"))
+                                Text("5mg tablets")
+                                    .font(.footnote)
+                                    .foregroundStyle(Color("NHSBlack"))
+                                Text("Prescribed on 18 Oct 2025")
+                                    .font(.footnote)
+                                    .foregroundStyle(Color("NHSBlack"))
+                                    .padding(.top, 8)
                             }
-                            Spacer(minLength: 40)
+                            Spacer()
                         }
 
                         Button {
@@ -29,22 +41,42 @@ struct PrescriptionsView: View {
                         } label: {
                             Image(systemName: "xmark.circle.fill")
                                 .font(.title2)
-                                .foregroundColor(Color("NHSAppDarkPurple"))
-                                .accessibilityLabel("Dismiss prescription card")
+                                .foregroundColor(Color("NHSAppDarkGreen"))
+                                .accessibilityLabel("Dismiss prescription")
                         }
-                        .accessibilityLabel("Dismiss prescription card")
-                        .accessibilityHint("Hides the ‘Ready to collect’ message.")
+                        .accessibilityLabel("Dismiss prescription")
+                        .accessibilityHint("Hides the ‘Prescription is ready to collect’ message.")
                         
                     }
-                    RowLink(title: "View prescription", chevronColor: Color("NHSAppDarkPurple").opacity(0.7)) { DetailView(index: 0) }
+                    
+                    VStack(alignment: .leading, spacing: 8) {
+                        HStack(spacing: 8) {
+                            Image(systemName: "circle.fill")
+                                .foregroundColor(Color("NHSGreen"))
+                                .font(.system(size: 12))
+                            
+                            Text("Ready to collect")
+                                .foregroundColor(Color("NHSAppDarkGreen"))
+                                .font(.subheadline)
+                                .bold()
+                        }
+                        
+                    }
                 }
-                .rowStyle(.palePurple)
+                .rowStyle(.paleGreen)
+                .contentShape(Rectangle()) // Makes entire area tappable
+                .onTapGesture {
+                    showPrescription = true
+                }
+                .fullScreenCover(isPresented: $showPrescription) {
+                    PrescriptionDetailView()
+                }
                 .transition(.move(edge: .top).combined(with: .opacity))
             }
 
             Section {
                 RowLink(title: "Request a repeat prescription") { DetailView(index: 0) }
-                RowLink(title: "Check the progress of prescriptions") { DetailView(index: 0) }
+                RowLink(title: "Check the progress of prescriptions") { PrescriptionProgressView() }
                 RowLink(title: "Medicines record") { DetailView(index: 0) }
                 RowLink(title: "Request an emergency prescription") { DetailView(index: 0) }
                 RowLink {
@@ -78,5 +110,7 @@ struct PrescriptionsView: View {
 }
 
 #Preview {
-    PrescriptionsView()
+    NavigationStack {
+        PrescriptionsView()
+    }
 }

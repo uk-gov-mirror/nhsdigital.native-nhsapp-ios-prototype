@@ -25,7 +25,7 @@ struct ProfileView: View {
                         }
     
                 }
-                .rowStyle(.white)
+                .rowStyle(.paleBlue)
                 
                 Section {
                     RowLink(title: "Contact details") { DetailView(index: 0) }

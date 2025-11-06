@@ -20,91 +20,36 @@ struct HomeView: View {
     // Start hidden so we can animate it in after a delay
     @State private var showPrescriptionCard = false
     
-    @State private var showAppointmentCard = true
+    @State private var showPrescription = false
 
     var body: some View {
         NavigationStack {
             List {
-                
-                // Custom row with title, subtitle and a navigation link
-                Section {
-                    HStack(alignment: .center) {
-                        VStack(alignment: .leading, spacing: 4) {
-                            Image("nhs_logo")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(height: 28)
-                                .accessibilityLabel("NHS")
-                                .padding(.bottom, 12)
-                            
-                            Text("David Hunter")
-                                .font(.title)
-                                .bold()
-                                .foregroundColor(.textInverseOnly)
-                            
-                            Text("\(Text("NHS number: ").bold())123 456 789")
-                                .font(.subheadline)
-                                .foregroundColor(.textInverseOnly)
-                        }
-                    }
-                    .padding(.top, 8)
-                    .padding(.bottom, -8)
-                    
-                    HStack(spacing: 12) {
-                        Button(action: {
-                            print("Change user tapped")
-                        }) {
-                            HStack(spacing: 6) {
-                                Image(systemName: "arrow.triangle.2.circlepath")
-                                    .font(.system(size: 14)) // smaller icon
-                                    .bold()
-                                    .accessibilityHidden(true)
-                                Text("Change profile")
-                                    .font(.subheadline)
-                                    .bold()
-                            }
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 6)
-                            .background(Color("NHSAppDarkBlueOnly").opacity(0.6))
-                            .foregroundColor(.textInverseOnly)
-                            .clipShape(Capsule())
-                        }
-                        
-                        Button(action: {
-                            print("Add user tapped")
-                        }) {
-                            HStack(spacing: 6) {
-                                Image(systemName: "person.crop.circle.badge.plus")
-                                    .font(.system(size: 14)) // smaller icon
-                                    .bold()
-                                    .accessibilityHidden(true)
-                                Text("Add person")
-                                    .font(.subheadline)
-                                    .bold()
-                            }
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 6)
-                            .background(Color("NHSAppDarkBlueOnly").opacity(0.6))
-                            .foregroundColor(.textInverseOnly)
-                            .clipShape(Capsule())
-                        }
-                    }
-                }
-                .rowStyle(.blue)
                 
                 // Prescription card (no persistence; shows after delay on each appearance)
                 if showPrescriptionCard {
                     Section {
                         ZStack(alignment: .topTrailing) {
                                 
-                            HStack(alignment: .center) {
-                                VStack(alignment: .leading, spacing: 8) {
-                                    Text("Ready to collect")
+                            HStack(alignment: .top) {
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text("Repeat prescription")
+                                        .bold()
+                                        .font(.footnote)
+                                        .padding(.bottom, 4)
+                                    Text("Ramipril")
                                         .font(.body)
                                         .bold()
-                                    Text("Ramipril 50mg | Order 557579689")
+                                        .foregroundStyle(Color("NHSBlack"))
+                                    Text("5mg tablets")
+                                        .font(.footnote)
+                                        .foregroundStyle(Color("NHSBlack"))
+                                    Text("Prescribed on 18 Oct 2025")
+                                        .font(.footnote)
+                                        .foregroundStyle(Color("NHSBlack"))
+                                        .padding(.top, 8)
                                 }
-                                Spacer(minLength: 40)
+                                Spacer()
                             }
 
                             Button {
@@ -114,44 +59,39 @@ struct HomeView: View {
                             } label: {
                                 Image(systemName: "xmark.circle.fill")
                                     .font(.title2)
-                                    .foregroundColor(Color("NHSAppDarkPurple"))
-                                    .accessibilityLabel("Dismiss prescription card")
+                                    .foregroundColor(Color("NHSAppDarkGreen"))
+                                    .accessibilityLabel("Dismiss prescription")
                             }
-                            .accessibilityLabel("Dismiss prescription card")
-                            .accessibilityHint("Hides the ‘Ready to collect’ message.")
+                            .accessibilityLabel("Dismiss prescription")
+                            .accessibilityHint("Hides the ‘Prescription is ready to collect’ message.")
                             
                         }
-                        RowLink(title: "View prescription", chevronColor: Color("NHSAppDarkPurple").opacity(0.7)) { DetailView(index: 0) }
+                        
+                        VStack(alignment: .leading, spacing: 8) {
+                            HStack(spacing: 8) {
+                                Image(systemName: "circle.fill")
+                                    .foregroundColor(Color("NHSGreen"))
+                                    .font(.system(size: 12))
+                                
+                                Text("Ready to collect")
+                                    .foregroundColor(Color("NHSAppDarkGreen"))
+                                    .font(.subheadline)
+                                    .bold()
+                            }
+                            
+                        }
                     }
-                    .rowStyle(.palePurple)
+                    .rowStyle(.paleGreen)
+                    .contentShape(Rectangle()) // Makes entire area tappable
+                    .onTapGesture {
+                        showPrescription = true
+                    }
+                    .fullScreenCover(isPresented: $showPrescription) {
+                        PrescriptionDetailView()
+                    }
                     .transition(.move(edge: .top).combined(with: .opacity))
                 }
                 
-                if showAppointmentCard {
-                    // Appointment card (example)
-                    Section {
-                        RowLink {
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text("Upcoming appointment")
-                                    .bold()
-                                    .padding(.bottom, 4)
-                                Text("Tuesday, 15 November 2025")
-                                    .font(.subheadline)
-                                Text("3:15pm")
-                                    .font(.subheadline)
-                                    .padding(.bottom, 8)
-                                Text("Dr Conor Murphy")
-                                    .font(.subheadline)
-                                Text("Menston Medical Centre")
-                                    .font(.subheadline)
-                            }
-                            .padding(.vertical, 4)
-                        } destination: { DetailView(index: 0) }
-                    }
-                    .rowStyle(.paleBlue)
-                }
-                
-
                 // Navigation links
                 Section {
                     RowLink {
@@ -161,9 +101,9 @@ struct HomeView: View {
                         } icon: {
                             Image(systemName: "pills.fill")
                                 .font(.system(size: 12))
-                                .foregroundColor(Color("NHSPurple"))
+                                .foregroundColor(Color("NHSBlue"))
                                 .padding(8)
-                                .background(Color("NHSAppPalePurple"))
+                                .background(Color("NHSGrey5"))
                                 .clipShape(Circle())
                         }
                     } destination: { PrescriptionsView() }
@@ -175,9 +115,9 @@ struct HomeView: View {
                         } icon: {
                             Image(systemName: "calendar.badge.clock")
                                 .font(.system(size: 12))
-                                .foregroundColor(.accentColor)
+                                .foregroundColor(Color("NHSBlue"))
                                 .padding(8)
-                                .background(Color("NHSAppPaleBlue"))
+                                .background(Color("NHSGrey5"))
                                 .clipShape(Circle())
                         }
                     } destination: { AppointmentsView() }
@@ -189,9 +129,9 @@ struct HomeView: View {
                         } icon: {
                             Image(systemName: "waveform.path.ecg")
                                 .font(.system(size: 12))
-                                .foregroundColor(Color("NHSPink"))
+                                .foregroundColor(Color("NHSBlue"))
                                 .padding(8)
-                                .background(Color("NHSAppPalePink"))
+                                .background(Color("NHSGrey5"))
                                 .clipShape(Circle())
                         }
                     } destination: { TestResultsView() }
@@ -203,9 +143,9 @@ struct HomeView: View {
                         } icon: {
                             Image(systemName: "syringe")
                                 .font(.system(size: 12))
-                                .foregroundColor(Color("NHSOrange"))
+                                .foregroundColor(Color("NHSBlue"))
                                 .padding(8)
-                                .background(Color("NHSAppPaleOrange"))
+                                .background(Color("NHSGrey5"))
                                 .clipShape(Circle())
                         }
                     } destination: { VaccinationsView() }
@@ -217,9 +157,9 @@ struct HomeView: View {
                         } icon: {
                             Image(systemName: "cross.case.fill")
                                 .font(.system(size: 12))
-                                .foregroundColor(Color("NHSAquaGreen"))
+                                .foregroundColor(Color("NHSBlue"))
                                 .padding(8)
-                                .background(Color("NHSAppPaleAquaGreen"))
+                                .background(Color("NHSGrey5"))
                                 .clipShape(Circle())
                         }
                     } destination: { HealthConditionsView() }
@@ -231,9 +171,9 @@ struct HomeView: View {
                         } icon: {
                             Image(systemName: "doc.text.fill")
                                 .font(.system(size: 12))
-                                .foregroundColor(Color("NHSRed"))
+                                .foregroundColor(Color("NHSBlue"))
                                 .padding(8)
-                                .background(Color("NHSAppPaleRed"))
+                                .background(Color("NHSGrey5"))
                                 .clipShape(Circle())
                         }
                     } destination: { DocumentsView() }
@@ -282,6 +222,8 @@ struct HomeView: View {
                 .onAppear { isSafariFocused = true }
             }
             .nhsListStyle()
+            .navigationTitle("Home")
+            .navigationBarTitleDisplayMode(.large)
         }
         .background(Color.pageBackground)
         .onAppear {
