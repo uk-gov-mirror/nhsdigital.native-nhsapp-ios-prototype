@@ -60,9 +60,9 @@ struct PrescriptionsView: View {
                             RowLink {
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text("Your chosen pharmacy")
-                                        .foregroundStyle(.textSecondary)
-                                    Text("Wellcare Pharmacy")
                                         .bold()
+                                    Text("Wellcare Pharmacy")
+                                        .foregroundStyle(.textSecondary)
                                 }
                                 .padding(.vertical, 4)
                             } destination: {

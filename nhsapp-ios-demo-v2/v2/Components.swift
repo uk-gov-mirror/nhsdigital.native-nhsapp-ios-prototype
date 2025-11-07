@@ -111,6 +111,24 @@ struct ComponentView: View {
                     RowLink(title: "Link") { DetailView(index: 5) }
                 }
                 .rowStyle(.white)
+                
+                // Custom row with title, subtitle and a navigation link
+                Section {
+                    HStack(alignment: .center) {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Main title")
+                                .font(.title)
+                                .bold()
+
+                            Text("Subtitle or description text")
+                                .font(.subheadline)
+                                .foregroundStyle(.textSecondary)
+                        }
+                    }
+                    .padding(.vertical, 4)
+                    Button("Button") { }
+                }
+                .rowStyle(.white)
 
                 // Custom row with title, subtitle and a navigation link
                 Section {

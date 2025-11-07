@@ -8,52 +8,72 @@ struct PrescriptionDetailView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
                     VStack(alignment: .leading, spacing: 16) {
-                        
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("Prescribed on 18 Oct 2025")
-                                .font(.subheadline)
-                                .foregroundStyle(Color.textSecondary)
+  
+                        HStack(spacing: 8) {
+                            Image(systemName: "circle.fill")
+                                .foregroundColor(Color("NHSGreen"))
+                                .font(.system(size: 14))
                             
-                            HStack(spacing: 8) {
-                                Image(systemName: "circle.fill")
-                                    .foregroundColor(Color("NHSGreen"))
-                                    .font(.system(size: 14))
-                                
-                                Text("Ready to collect")
-                                    .foregroundColor(Color("NHSAppDarkGreen"))
-                                    .font(.headline)
-                                    .bold()
-                            }
+                            Text("Ready to collect")
+                                .foregroundColor(Color("NHSAppDarkGreen"))
+                                .font(.headline)
+                                .bold()
                         }
                         
                         Divider()
                             .overlay(Color("NHSAppDarkGreen").opacity(0.2))
                         
-                        VStack(alignment: .leading, spacing: 8) {
-                            VStack(alignment: .leading, spacing: 4) {
-                                
-                                Text("Amoxicillin")
-                                    .font(.body)
-                                    .bold()
-                                    .foregroundStyle(Color("NHSBlack"))
-                                Text("500mg capsules")
-                                    .font(.footnote)
-                                    .foregroundStyle(Color("NHSBlack"))
-                            }
-                            
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text("Diclofenac")
-                                    .font(.body)
-                                    .bold()
-                                    .foregroundStyle(Color("NHSBlack"))
-                                Text("50mg tablets")
-                                    .font(.footnote)
-                                    .foregroundStyle(Color("NHSBlack"))
-                            }
+                        Text("Medicines")
+                            .font(.title2)
+                            .bold()
+                            .foregroundStyle(Color("NHSBlack"))
+                        
+                        HStack {
+                            Text("Amoxicillin")
+                                .bold()
+                            Spacer()
+                            Text("500mg capsules")
+                        }
+                        
+                        HStack {
+                            Text("Amoxicillin")
+                                .bold()
+                            Spacer()
+                            Text("500mg capsules")
+                        }
+                        
+                        Text("For instructions on how to take your medicine, read the label on the packet or container.")
+                            .foregroundStyle(Color("NHSBlack"))
+                        
+                        Divider()
+                            .overlay(Color("NHSAppDarkGreen").opacity(0.2))
+                        
+                        HStack {
+                            Text("Date prescribed")
+                                .bold()
+                            Spacer()
+                            Text("18 July 2024")
                         }
                         
                         Divider()
                             .overlay(Color("NHSAppDarkGreen").opacity(0.2))
+                        
+                        HStack {
+                            Text("Prescribed by")
+                                .bold()
+                            Spacer()
+                            Text("Dr. Smith")
+                        }
+                        
+                        Divider()
+                            .overlay(Color("NHSAppDarkGreen").opacity(0.2))
+                        
+                        HStack {
+                            Text("Organisation")
+                                .bold()
+                            Spacer()
+                            Text("York Road Practice")
+                        }
                         
                     }
                         
