@@ -50,8 +50,6 @@ struct PrescriptionsView: View {
                         }
                     }
                 }
-            } header: {
-                Text("In progress")
             }
             .rowStyle(.paleGreen)
             .contentShape(Rectangle())

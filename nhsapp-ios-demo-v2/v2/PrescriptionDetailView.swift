@@ -9,7 +9,11 @@ struct PrescriptionDetailView: View {
                 VStack(alignment: .leading, spacing: 16) {
                     VStack(alignment: .leading, spacing: 16) {
                         
-                        VStack(alignment: .leading, spacing: 4) {
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("Prescribed on 18 Oct 2025")
+                                .font(.subheadline)
+                                .foregroundStyle(Color.textSecondary)
+                            
                             HStack(spacing: 8) {
                                 Image(systemName: "circle.fill")
                                     .foregroundColor(Color("NHSGreen"))
@@ -20,17 +24,6 @@ struct PrescriptionDetailView: View {
                                     .font(.headline)
                                     .bold()
                             }
-                        }
-                        
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text("One off prescription")
-                                .foregroundColor(Color("NHSBlack"))
-                                .bold()
-                                .font(.subheadline)
-                            
-                            Text("Prescribed on 18 Oct 2025")
-                                .font(.subheadline)
-                                .foregroundStyle(Color.textSecondary)
                         }
                         
                         Divider()
@@ -68,7 +61,7 @@ struct PrescriptionDetailView: View {
                 }
             }
             .background(Color("NHSAppPaleGreen"))
-            .navigationTitle("Prescription")
+            .navigationTitle("Repeat prescription")
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
