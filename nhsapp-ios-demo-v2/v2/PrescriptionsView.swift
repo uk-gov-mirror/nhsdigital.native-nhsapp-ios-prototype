@@ -11,33 +11,33 @@ struct PrescriptionsView: View {
             VStack(spacing: 0) {
                 
                 // MARK: Header Title + View All
-                HStack {
-                    Text("Your prescriptions")
-                        .font(.headline)
-                        .foregroundColor(Color("NHSBlack"))
-                        .padding(.leading, 16)
-                    
-                    Spacer()
-                    
-                    NavigationLink {
-                        PrescriptionProgressView()
-                    } label: {
+                NavigationLink {
+                    PrescriptionProgressView()
+                } label: {
+                    HStack {
+                        Text("Your prescriptions")
+                            .font(.headline)
+                            .foregroundColor(Color("NHSBlack"))
+                        
+                        Spacer()
+                        
                         HStack(spacing: 4) {
                             Text("View all")
                                 .font(.subheadline)
                                 .bold()
+                                .foregroundColor(Color("AccentColor"))
                             
                             Image(systemName: "chevron.right")
                                 .font(.system(size: 12, weight: .semibold))
+                                .foregroundColor(Color("AccentColor"))
                         }
-                        .foregroundColor(Color("AccentColor"))
-                        .padding(.vertical, 8)
-                        .contentShape(Rectangle())
                     }
-                    .padding(.trailing, 16)
-                    .accessibilityLabel("View all prescriptions")
-                    .accessibilityHint("Opens the full prescriptions list")
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 8)
+                    .contentShape(Rectangle())
                 }
+                .accessibilityLabel("Your prescriptions: View all")
+                .accessibilityHint("Opens the full prescriptions list")
                 .padding(.top, 16)
                 
                 
