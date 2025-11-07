@@ -9,7 +9,6 @@ struct PrescriptionCard: View {
             HStack(alignment: .top) {
                 VStack(alignment: .leading, spacing: 4) {
                     
-                    // ✅ Type label (Repeat / One off)
                     Text(prescription.type.rawValue)
                         .bold()
                         .font(.footnote)
@@ -39,11 +38,11 @@ struct PrescriptionCard: View {
             Divider()
                 .overlay(Color("NHSAppDarkGreen").opacity(0.2))
 
-            // ✅ Status row
             HStack(spacing: 8) {
                 Image(systemName: iconForStatus)
                     .font(.system(size: 12))
                     .foregroundColor(statusColor)
+                    .accessibilityHidden(true)
 
                 Text(prescription.status)
                     .foregroundColor(statusColor)
@@ -56,13 +55,14 @@ struct PrescriptionCard: View {
         .clipShape(RoundedRectangle(cornerRadius: 20))
     }
     
-    // MARK: Helpers
+    // MARK: Icons
     private var iconForStatus: String {
         if prescription.status.contains("Collected") { return "checkmark.circle.fill" }
         if prescription.status.contains("Ready") { return "circle.fill" }
         return "hourglass"
     }
     
+    // MARK: Colours
     private var statusColor: Color {
         if prescription.status.contains("Collected") { return Color("NHSGreen") }
         if prescription.status.contains("Ready") { return Color("NHSGreen") }

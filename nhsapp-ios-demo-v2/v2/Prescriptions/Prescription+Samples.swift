@@ -22,7 +22,7 @@ extension Prescription {
             name: "Levothyroxine",
             details: "50 microgram tablets",
             date: "10 Oct 2025",
-            status: "With pharmacy",
+            status: "Pending",
             type: .repeatPrescription
         ),
 
