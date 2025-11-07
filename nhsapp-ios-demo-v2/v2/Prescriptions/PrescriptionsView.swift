@@ -62,6 +62,7 @@ struct PrescriptionsView: View {
                                     Text("Your chosen pharmacy")
                                         .bold()
                                     Text("Wellcare Pharmacy")
+
                                         .foregroundStyle(.textSecondary)
                                 }
                                 .padding(.vertical, 4)
@@ -94,7 +95,7 @@ struct PrescriptionsView: View {
                     .scrollContentBackground(.hidden)
                     .background(Color.clear)
                     .frame(minHeight: 600)
-                    .padding(.top, -24) // Pull list closer to carousel
+                    .padding(.top, -60) // Pull list closer to carousel
                 }
             }
             // ✅ Improves whole-screen accessibility grouping

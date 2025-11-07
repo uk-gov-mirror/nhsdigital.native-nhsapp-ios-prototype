@@ -7,8 +7,7 @@ enum PrescriptionType: String, Codable {
 
 struct Prescription: Identifiable {
     let id = UUID()
-    let name: String
-    let details: String
+    let medicines: [Medicine]
     let date: String
     let status: String
     let type: PrescriptionType
