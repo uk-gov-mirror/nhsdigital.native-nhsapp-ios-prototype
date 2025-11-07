@@ -41,6 +41,7 @@ struct HomeView: View {
                                             .bold()
                                             .font(.footnote)
                                             .padding(.bottom, 4)
+                                            .foregroundStyle(Color("NHSBlack"))
                                         Text("Ramipril")
                                             .font(.body)
                                             .bold()
