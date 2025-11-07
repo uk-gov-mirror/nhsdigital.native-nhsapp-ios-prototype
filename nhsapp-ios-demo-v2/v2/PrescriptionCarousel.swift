@@ -8,7 +8,8 @@ struct PrescriptionCarousel: View {
     
     var body: some View {
         GeometryReader { geo in
-            let cardWidth = geo.size.width * 0.66
+            let cardWidth = geo.size.width * 0.66 // Size of the card
+            let sidePadding: CGFloat = 24   // Adds "peeking"
             
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: spacing) {
@@ -21,14 +22,18 @@ struct PrescriptionCarousel: View {
                             }
                     }
                 }
-                .padding(.horizontal, 16)
+                // ✅ Snapping
+                .scrollTargetLayout()
             }
+            // ✅ Snap cards
             .scrollTargetBehavior(.viewAligned)
+            
+            // ✅ This creates the "peeking" effect
+            .contentMargins(.horizontal, sidePadding, for: .scrollContent)
         }
-        .frame(height: 200) // Adjust height to match card
+        .frame(height: 200)
     }
 }
-
 
 #Preview {
     PrescriptionCarousel(
