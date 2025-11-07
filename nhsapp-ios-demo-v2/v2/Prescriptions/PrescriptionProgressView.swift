@@ -33,6 +33,14 @@ struct PrescriptionProgressView: View {
         }
         .navigationTitle("Your prescriptions")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button("Request") {
+                }
+                .accessibilityLabel("Request a repeat prescription")
+                .accessibilityHint("Opens the repeat prescription request screen")
+            }
+        }
     }
     
     
