@@ -3,7 +3,6 @@ import SwiftUI
 struct PrescriptionsView: View {
     
     private let samplePrescriptions = Prescription.activeSampleData
-    
     @State private var showPrescription = false
     
     var body: some View {
@@ -46,7 +45,7 @@ struct PrescriptionsView: View {
                     .accessibilityHint("Opens the full prescriptions list")
                     .padding(.top, 16)
                     
-                    // MARK: Edge-to-edge carousel
+                    // MARK: Carousel
                     PrescriptionCarousel(
                         prescriptions: samplePrescriptions
                     ) { _ in
@@ -54,7 +53,7 @@ struct PrescriptionsView: View {
                     }
                     .padding(.top, 8)
                     
-                    // MARK: List content
+                    // MARK: List
                     List {
                         
                         Section {
@@ -92,12 +91,14 @@ struct PrescriptionsView: View {
                         .rowStyle(.white)
                     }
                     .nhsListStyle()
-                    .scrollContentBackground(.hidden)   // Removes list background
-                    .background(Color.clear)            // Lets ZStack color show through
+                    .scrollContentBackground(.hidden)
+                    .background(Color.clear)
                     .frame(minHeight: 600)
-                    .padding(.top, -24)
+                    .padding(.top, -24) // Pull list closer to carousel
                 }
             }
+            // ✅ Improves whole-screen accessibility grouping
+            .accessibilityElement(children: .contain)
         }
         .navigationTitle("Prescriptions")
         .navigationBarTitleDisplayMode(.large)
