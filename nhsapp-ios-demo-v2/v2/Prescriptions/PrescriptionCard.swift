@@ -53,7 +53,7 @@ struct PrescriptionCard: View {
         .padding()
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(Color("NHSAppPaleGreen"))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .clipShape(RoundedRectangle(cornerRadius: 20))
     }
     
     // MARK: Helpers
