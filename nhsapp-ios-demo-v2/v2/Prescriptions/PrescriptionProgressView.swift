@@ -15,8 +15,7 @@ struct PrescriptionProgressView: View {
             }
             .pickerStyle(.segmented)
             .padding(.horizontal)
-            .padding(.vertical, 8)
-            .background(.thinMaterial)
+            .controlSize(.large)
             
             // MARK: List of prescriptions
             List {
@@ -31,16 +30,9 @@ struct PrescriptionProgressView: View {
                 PrescriptionDetailView()
             }
         }
+        .background(Color("NHSGrey5").ignoresSafeArea())
         .navigationTitle("Your prescriptions")
         .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button("Request") {
-                }
-                .accessibilityLabel("Request a repeat prescription")
-                .accessibilityHint("Opens the repeat prescription request screen")
-            }
-        }
     }
     
     
