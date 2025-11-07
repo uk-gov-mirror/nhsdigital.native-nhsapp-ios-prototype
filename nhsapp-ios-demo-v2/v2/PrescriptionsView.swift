@@ -2,7 +2,7 @@ import SwiftUI
 
 struct PrescriptionsView: View {
     
-    private let samplePrescriptions = Prescription.sampleData
+    private let samplePrescriptions = Prescription.activeSampleData
     
     @State private var showPrescription = false
     

@@ -5,16 +5,19 @@ struct PrescriptionCard: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
+            
             HStack(alignment: .top) {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Repeat prescription")
+                    
+                    // ✅ Type label (Repeat / One off)
+                    Text(prescription.type.rawValue)
                         .bold()
                         .font(.footnote)
                         .padding(.bottom, 4)
+                        .foregroundStyle(Color("NHSBlack"))
 
                     Text(prescription.name)
-                        .font(.body)
-                        .bold()
+                        .font(.body.bold())
                         .foregroundStyle(Color("NHSBlack"))
 
                     Text(prescription.details)
@@ -26,8 +29,9 @@ struct PrescriptionCard: View {
                         .foregroundStyle(Color("NHSBlack"))
                         .padding(.top, 8)
                 }
+                
                 Spacer()
-
+                
                 PrescriptionIcon(scale: 1)
                     .padding(.top, 4)
             }
@@ -35,22 +39,37 @@ struct PrescriptionCard: View {
             Divider()
                 .overlay(Color("NHSAppDarkGreen").opacity(0.2))
 
+            // ✅ Status row
             HStack(spacing: 8) {
-                Image(systemName: "circle.fill")
-                    .foregroundColor(Color("NHSGreen"))
+                Image(systemName: iconForStatus)
                     .font(.system(size: 12))
+                    .foregroundColor(statusColor)
 
                 Text(prescription.status)
-                    .foregroundColor(Color("NHSAppDarkGreen"))
-                    .font(.subheadline)
-                    .bold()
+                    .foregroundColor(statusColor)
+                    .font(.subheadline.bold())
             }
         }
         .padding()
+        .frame(maxWidth: .infinity, alignment: .leading)
         .background(Color("NHSAppPaleGreen"))
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
+    
+    // MARK: Helpers
+    private var iconForStatus: String {
+        if prescription.status.contains("Collected") { return "checkmark.circle.fill" }
+        if prescription.status.contains("Ready") { return "circle.fill" }
+        return "hourglass"
+    }
+    
+    private var statusColor: Color {
+        if prescription.status.contains("Collected") { return Color("NHSGreen") }
+        if prescription.status.contains("Ready") { return Color("NHSGreen") }
+        return Color("NHSAppDarkBlue")
+    }
 }
+
 
 #Preview {
     PrescriptionCard(
@@ -58,7 +77,8 @@ struct PrescriptionCard: View {
             name: "Ramipril",
             details: "5mg tablets",
             date: "18 Oct 2025",
-            status: "Ready to collect"
+            status: "Ready to collect",
+            type: .repeatPrescription
         )
     )
     .padding()

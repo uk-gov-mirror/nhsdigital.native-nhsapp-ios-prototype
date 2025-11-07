@@ -32,9 +32,6 @@ struct PrescriptionCarousel: View {
 
 #Preview {
     PrescriptionCarousel(
-        prescriptions: [
-            Prescription(name: "Ramipril", details: "5mg tablets", date: "18 Oct 2025", status: "Ready to collect"),
-            Prescription(name: "Atorvastatin", details: "20mg tablets", date: "10 Sep 2025", status: "In progress")
-        ]
+        prescriptions: Prescription.activeSampleData
     ) { _ in }
 }
