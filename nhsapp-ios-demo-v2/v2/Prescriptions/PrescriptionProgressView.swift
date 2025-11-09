@@ -26,7 +26,7 @@ struct PrescriptionProgressView: View {
                 }
             }
             .nhsListStyle()
-            .fullScreenCover(isPresented: $showPrescription) {
+            .sheet(isPresented: $showPrescription) {
                 PrescriptionDetailView()
             }
         }

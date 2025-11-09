@@ -2,6 +2,30 @@ import SwiftUI
 
 struct PrescriptionCard: View {
     let prescription: Prescription
+    var isPast: Bool = false
+    
+    var defaultAccessibilityLabel: String {
+        var parts: [String] = []
+
+        parts.append(prescription.type.rawValue)
+
+        if let first = prescription.medicines.first {
+            parts.append("\(first.name), \(first.dosage)")
+        }
+
+        parts.append("Prescribed on \(prescription.date)")
+
+        // Optional improvement: make past items more natural
+        // if isPast {
+        //     parts.append(prescription.status)
+        // } else {
+        //     parts.append("Status: \(prescription.status)")
+        // }
+
+        parts.append("Status: \(prescription.status)")
+        
+        return parts.joined(separator: ". ")
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -9,51 +33,35 @@ struct PrescriptionCard: View {
             HStack(alignment: .top) {
                 VStack(alignment: .leading, spacing: 4) {
 
-                    // Prescription type
                     Text(prescription.type.rawValue)
-                        .bold()
-                        .font(.footnote)
+                        .font(.footnote.bold())
                         .padding(.bottom, 4)
                         .foregroundStyle(Color("NHSBlack"))
 
-                    // MARK: Main medicine
                     if let first = prescription.medicines.first {
                         Text(first.name)
                             .font(.body.bold())
                             .foregroundStyle(Color("NHSBlack"))
+                            .lineLimit(nil)
 
                         Text(first.dosage)
                             .font(.footnote)
                             .foregroundStyle(Color("NHSBlack"))
+                            .lineLimit(nil)
                     }
 
-                    // MARK: "X more medicine(s)" OR placeholder
-                    // let extraCount = prescription.medicines.count - 1
-                    // Group {
-                    //     if extraCount > 0 {
-                    //         Text(extraCount == 1 ?
-                    //              "1 more medicine" :
-                    //              "\(extraCount) more medicines")
-                    //     } else {
-                    //         Text("X more medicines")
-                    //             .hidden()   // ✅ reserve space
-                    //     }
-                    // }
-                    // .font(.footnote)
-                    // .foregroundStyle(Color(.textSecondary))
-                    // .padding(.top, 2)
-
-                    // Prescribed date
                     Text("Prescribed on \(prescription.date)")
                         .font(.footnote)
                         .foregroundStyle(Color("NHSBlack"))
                         .padding(.top, 8)
+                        .lineLimit(nil)
                 }
 
                 Spacer()
 
                 PrescriptionIcon(scale: 1)
                     .padding(.top, 4)
+                    .accessibilityHidden(true)
             }
 
             Divider()
@@ -68,15 +76,18 @@ struct PrescriptionCard: View {
                 Text(prescription.status)
                     .foregroundColor(statusColor)
                     .font(.subheadline.bold())
+                    .lineLimit(nil)
             }
         }
         .padding()
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color("NHSAppPaleGreen"))
+        .background(isPast ? Color("NHSWhite") : Color("NHSAppPaleGreen"))
         .clipShape(RoundedRectangle(cornerRadius: 20))
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(defaultAccessibilityLabel)
+        .accessibilityHint("Double tap to view prescription details")
     }
 
-    // MARK: Icons + colours
     private var iconForStatus: String {
         if prescription.status.contains("Collected") { return "checkmark.circle.fill" }
         if prescription.status.contains("Ready") { return "circle.fill" }
@@ -89,7 +100,6 @@ struct PrescriptionCard: View {
         return Color("NHSAppDarkBlue")
     }
 }
-
 
 #Preview {
     PrescriptionCard(

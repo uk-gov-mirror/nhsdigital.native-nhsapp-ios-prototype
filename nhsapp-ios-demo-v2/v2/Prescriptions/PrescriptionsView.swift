@@ -103,7 +103,7 @@ struct PrescriptionsView: View {
         }
         .navigationTitle("Prescriptions")
         .navigationBarTitleDisplayMode(.large)
-        .fullScreenCover(isPresented: $showPrescription) {
+        .sheet(isPresented: $showPrescription) {
             PrescriptionDetailView()
         }
     }
