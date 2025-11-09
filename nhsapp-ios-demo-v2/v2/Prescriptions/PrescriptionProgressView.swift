@@ -4,7 +4,7 @@ struct PrescriptionProgressView: View {
     
     @State private var showPrescription = false
     @State private var selectedTab = 0   // 0 = Active, 1 = Past
-
+    
     // ✅ Accessibility focus targets
     @AccessibilityFocusState private var focusActive: Bool
     @AccessibilityFocusState private var focusPast: Bool
@@ -22,15 +22,21 @@ struct PrescriptionProgressView: View {
             .padding(.bottom, 8)
             .controlSize(.large)
             .onChange(of: selectedTab) { _, _ in
+                
                 withAnimation(.easeInOut(duration: 0.25)) { }
-
-                // ✅ VoiceOver announcement
-                UIAccessibility.post(
-                    notification: .announcement,
-                    argument: selectedTab == 0 ? "Active prescriptions" : "Past prescriptions"
-                )
-
-                // ✅ Move focus to the new hidden header
+                
+                // VoiceOver announcement with list count
+                let count = selectedTab == 0 ?
+                    Prescription.activeSampleData.count :
+                    Prescription.pastSampleData.count
+                
+                let label = selectedTab == 0 ?
+                    "Active prescriptions, \(count) items" :
+                    "Past prescriptions, \(count) items"
+                
+                UIAccessibility.post(notification: .announcement, argument: label)
+                
+                // Move focus to hidden header
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                     if selectedTab == 0 {
                         focusActive = true
@@ -44,15 +50,16 @@ struct PrescriptionProgressView: View {
             GeometryReader { geo in
                 HStack(spacing: 0) {
                     
-                    // ✅ Active page (NO white rectangle – header moved outside list)
+                    // Active page
                     VStack(spacing: 0) {
-                        Text("Active prescriptions")
-                            .hidden()                         // not visible
-                            .accessibilityHidden(false)       // but accessible
+                        
+                        Text("Active prescriptions, \(Prescription.activeSampleData.count) items")
+                            .hidden()
+                            .accessibilityHidden(false)
                             .accessibilityAddTraits(.isHeader)
                             .accessibilityFocused($focusActive)
-                            .frame(height: 0)                 // no space
-
+                            .frame(height: 0)
+                        
                         List {
                             prescriptionSection(Prescription.activeSampleData)
                         }
@@ -65,15 +72,16 @@ struct PrescriptionProgressView: View {
                     }
                     .frame(width: geo.size.width)
                     
-                    // ✅ Past page (same fix)
+                    // Past page
                     VStack(spacing: 0) {
-                        Text("Past prescriptions")
+                        
+                        Text("Past prescriptions, \(Prescription.pastSampleData.count) items")
                             .hidden()
                             .accessibilityHidden(false)
                             .accessibilityAddTraits(.isHeader)
                             .accessibilityFocused($focusPast)
                             .frame(height: 0)
-
+                        
                         List {
                             prescriptionSection(Prescription.pastSampleData)
                         }
