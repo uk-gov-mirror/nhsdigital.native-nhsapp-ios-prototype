@@ -10,7 +10,7 @@ struct PrescriptionCarousel: View {
         GeometryReader { geo in
             let cardWidth = geo.size.width * 0.66
             let leadingPadding: CGFloat = 16
-            let trailingPeekPadding: CGFloat = 48
+            let trailingPeekPadding: CGFloat = 0
 
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: spacing) {
@@ -39,9 +39,7 @@ struct PrescriptionCarousel: View {
                     // peeking on the right
                     Spacer().frame(width: trailingPeekPadding)
                 }
-                .scrollTargetLayout()
             }
-            .scrollTargetBehavior(.viewAligned)
             .contentMargins(.leading, leadingPadding, for: .scrollContent)
             .accessibilityElement(children: .contain)
             .accessibilityLabel("Your prescriptions carousel")
