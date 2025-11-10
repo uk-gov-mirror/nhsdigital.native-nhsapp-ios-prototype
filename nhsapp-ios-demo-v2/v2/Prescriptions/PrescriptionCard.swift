@@ -81,7 +81,7 @@ struct PrescriptionCard: View {
         }
         .padding()
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(isPast ? Color("NHSWhite") : Color("NHSAppPaleGreen"))
+        .background(isPast ? Color("NHSWhite") : Color(.prescriptionGreen))
         .clipShape(RoundedRectangle(cornerRadius: 20))
         .accessibilityElement(children: .combine)
         .accessibilityLabel(defaultAccessibilityLabel)

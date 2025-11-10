@@ -20,7 +20,7 @@ struct GridNavigationButton<Destination: View>: View {
             VStack(alignment: .leading, spacing: iconBottomPadding) {
                 Image(systemName: systemImage)
                     .font(.system(size: iconSize))
-                    .foregroundColor(Color("NHSBlue"))
+                    .foregroundColor(Color("AccentColor"))
                     .accessibilityHidden(true)
                 
                 Spacer(minLength: 4)

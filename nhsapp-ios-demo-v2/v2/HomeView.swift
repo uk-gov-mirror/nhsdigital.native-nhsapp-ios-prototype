@@ -82,7 +82,7 @@ struct HomeView: View {
                                 }
                             }
                         }
-                        .rowStyle(.paleGreen)
+                        .rowStyle(.prescriptionGreen)
                         .contentShape(Rectangle())
                         .onTapGesture {
                             activeCover = .prescription

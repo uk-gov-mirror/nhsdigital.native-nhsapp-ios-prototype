@@ -13,6 +13,8 @@ struct RowStyle: ViewModifier {
         case palePink
         case palePurple
         case paleYellow
+        case prescription
+        case prescriptionGreen
     }
 
     var variant: Variant
@@ -80,6 +82,17 @@ struct RowStyle: ViewModifier {
                 .foregroundStyle(Color("NHSAppDarkYellow"))
                 .listRowBackground(Color("NHSAppPaleYellow"))
                 .listRowSeparatorTint(Color("NHSAppDarkYellow").opacity(0.2))
+            
+        case .prescription:
+            content
+                .listRowBackground(Color("NHSWhite").opacity(0.8))
+                .listRowSeparatorTint(Color("NHSAppDarkGreen").opacity(0.1))
+            
+        case .prescriptionGreen:
+            content
+                .foregroundStyle(Color("NHSBlack"))
+                .listRowBackground(Color(.prescriptionGreen))
+                .listRowSeparatorTint(Color("NHSAppDarkGreen").opacity(0.2))
             
         }
     }

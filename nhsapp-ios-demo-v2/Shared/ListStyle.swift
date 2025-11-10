@@ -8,7 +8,7 @@ struct NHSListDefaults: ViewModifier {
             .toggleStyle(NHSToggleStyle())
             .listSectionSpacing(20)
             .scrollContentBackground(.hidden)
-            .background(Color.pageBackground)
+            .background(Color(.pageBackground))
     }
 }
 

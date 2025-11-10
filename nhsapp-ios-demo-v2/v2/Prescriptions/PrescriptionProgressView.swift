@@ -128,7 +128,6 @@ struct PrescriptionProgressView: View {
                         showPrescription = true
                     }
             }
-            .rowStyle(.paleGreen)
             .listRowInsets(EdgeInsets())
             .listRowSeparator(.hidden)
         }

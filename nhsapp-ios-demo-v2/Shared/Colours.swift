@@ -12,6 +12,7 @@ extension Color {
     static let warning          = Color("NHSOrange")
     static let primary         = Color("AccentColor")
     static let textLink         = Color("AccentColor")
+    static let prescriptionGreen        = Color("NHSAppPaleGreen").opacity(0.7)
 }
 
 // Shorthands so you can write `.foregroundStyle(.text)` etc.
@@ -26,4 +27,5 @@ extension ShapeStyle where Self == Color {
     static var warning: Color         { .warning }
     static var primary: Color         { .primary}
     static var textLink: Color        { .textLink}
+    static var prescriptionGreen: Color        { .prescriptionGreen}
 }
