@@ -1,7 +1,5 @@
 import SwiftUI
 
-import SwiftUI
-
 struct GridNavigationButton<Destination: View>: View {
     let title: String
     let systemImage: String
@@ -23,6 +21,7 @@ struct GridNavigationButton<Destination: View>: View {
                 Image(systemName: systemImage)
                     .font(.system(size: iconSize))
                     .foregroundColor(Color("NHSBlue"))
+                    .accessibilityHidden(true)
                 
                 Spacer(minLength: 4)
                 
@@ -33,7 +32,7 @@ struct GridNavigationButton<Destination: View>: View {
                         .foregroundColor(.text)
                         .multilineTextAlignment(.leading)
                         .fixedSize(horizontal: false, vertical: true)
-                        .lineLimit(nil) // Allow unlimited lines
+                        .lineLimit(nil)
                     
                     Spacer(minLength: 8)
                     
@@ -41,14 +40,19 @@ struct GridNavigationButton<Destination: View>: View {
                         .font(.caption)
                         .foregroundColor(Color("NHSGrey2"))
                         .padding(.bottom, 3)
+                        .accessibilityHidden(true)
                 }
             }
             .padding(padding)
-            .frame(maxWidth: .infinity, alignment: .topLeading) // Removed minHeight
+            .frame(maxWidth: .infinity, alignment: .topLeading)
             .background(Color("NHSWhite"))
             .cornerRadius(24)
         }
         .buttonStyle(PlainButtonStyle())
+        .accessibilityLabel(title)
+        .accessibilityHint("Double tap to open \(title)")
+        .accessibilityAddTraits(.isButton)
+        .accessibilityRemoveTraits(.isImage)
         .navigationDestination(isPresented: $navigate) {
             destination()
                 .onAppear {
