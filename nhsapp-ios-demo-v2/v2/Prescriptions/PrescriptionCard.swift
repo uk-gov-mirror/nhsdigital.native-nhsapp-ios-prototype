@@ -89,13 +89,13 @@ struct PrescriptionCard: View {
     }
 
     private var iconForStatus: String {
-        if prescription.status.contains("Collected") { return "checkmark.circle.fill" }
+        if prescription.status.contains("Collected") { return "checkmark" }
         if prescription.status.contains("Ready") { return "circle.fill" }
         return "hourglass"
     }
 
     private var statusColor: Color {
-        if prescription.status.contains("Collected") { return Color("NHSGreen") }
+        if prescription.status.contains("Collected") { return Color("NHSGrey1") }
         if prescription.status.contains("Ready") { return Color("NHSGreen") }
         return Color("NHSAppDarkBlue")
     }
@@ -123,6 +123,18 @@ struct PrescriptionCard: View {
             ],
             date: "18 Oct 2025",
             status: "Pending",
+            type: .repeatPrescription
+        )
+    )
+    .padding()
+    
+    PrescriptionCard(
+        prescription: Prescription(
+            medicines: [
+                Medicine(name: "Atorvastatin", dosage: "20mg tablets")
+            ],
+            date: "18 Oct 2025",
+            status: "Collected",
             type: .repeatPrescription
         )
     )

@@ -31,7 +31,7 @@ struct HomeView: View {
         ZStack(alignment: .topLeading) {
             NavigationStack {
                 List {
-                    // Prescription card (presenter lives OUTSIDE this conditional)
+
                     if showPrescriptionCard {
                         Section {
                             ZStack(alignment: .topTrailing) {
@@ -90,7 +90,7 @@ struct HomeView: View {
                         .transition(.move(edge: .top).combined(with: .opacity))
                     }
                     
-                    // Navigation links (unchanged)
+                    // Navigation links
                     Section {
                         RowLink {
                             Label { Text("Prescriptions").foregroundColor(.text) } icon: {
@@ -160,7 +160,7 @@ struct HomeView: View {
                     }
                     .rowStyle(.white)
                     
-                    // External links -> drive via the same enum
+                    // External links
                     Section {
                         ExternalLinkRow(title: "Check your symptoms using 111 online",
                                         url: URL(string: "https://111.nhs.uk/")!) { url in
