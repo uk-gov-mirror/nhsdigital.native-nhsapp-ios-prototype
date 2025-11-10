@@ -90,6 +90,7 @@ struct HomeView: View {
                         .transition(.move(edge: .top).combined(with: .opacity))
                     }
                     
+                    /*
                     // Navigation links
                     Section {
                         RowLink {
@@ -159,6 +160,40 @@ struct HomeView: View {
                         } destination: { DocumentsView() }
                     }
                     .rowStyle(.white)
+                     */
+                    
+                    Section {
+                        LazyVGrid(columns: [
+                            GridItem(.flexible(), spacing: 12),
+                            GridItem(.flexible(), spacing: 12)
+                        ], spacing: 12) {
+                            GridNavigationButton(title: "Prescriptions", systemImage: "pills.fill") {
+                                PrescriptionsView()
+                            }
+                            GridNavigationButton(title: "Appointments", systemImage: "calendar.badge.clock") {
+                                AppointmentsView()
+                            }
+                            GridNavigationButton(title: "Test results", systemImage: "waveform.path.ecg") {
+                                TestResultsView()
+                            }
+                            GridNavigationButton(title: "Vaccinations", systemImage: "syringe") {
+                                VaccinationsView()
+                            }
+                            GridNavigationButton(title: "Health conditions", systemImage: "cross.case.fill") {
+                                HealthConditionsView()
+                            }
+                            GridNavigationButton(title: "Documents", systemImage: "doc.text.fill") {
+                                DocumentsView()
+                            }
+                        }
+                        .padding(.horizontal, 0)
+                    }
+                    .listRowInsets(EdgeInsets()) // Remove all insets
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden) // Hide any separators
+                    .environment(\.defaultMinListRowHeight, 0) // Remove default row height
+                    // Add this modifier to handle very large text sizes
+                    .dynamicTypeSize(...DynamicTypeSize.accessibility2) // Limit maximum size if needed
                     
                     // External links
                     Section {
