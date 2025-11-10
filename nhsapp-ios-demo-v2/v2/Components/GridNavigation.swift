@@ -28,7 +28,6 @@ struct GridNavigationButton<Destination: View>: View {
                 HStack(alignment: .bottom) {
                     Text(title)
                         .font(.body)
-                        .fontWeight(.medium)
                         .foregroundColor(.text)
                         .multilineTextAlignment(.leading)
                         .fixedSize(horizontal: false, vertical: true)
