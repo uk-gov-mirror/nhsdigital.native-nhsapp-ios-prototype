@@ -1,22 +1,19 @@
 import SwiftUI
 
-struct GridNavigationButton<Destination: View>: View {
+// Simplified grid button that just takes an action
+struct SimpleGridNavigationButton: View {
     let title: String
     let systemImage: String
-    @Binding var navigationPath: NavigationPath
-    @ViewBuilder let destination: () -> Destination
+    let action: () -> Void
     
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     
-    // Use @ScaledMetric to scale values with Dynamic Type
     @ScaledMetric(relativeTo: .body) private var iconSize: CGFloat = 28
     @ScaledMetric(relativeTo: .body) private var padding: CGFloat = 16
     @ScaledMetric(relativeTo: .body) private var iconBottomPadding: CGFloat = 4
     
     var body: some View {
-        Button(action: {
-            navigationPath.append(title) // Append to path instead of using @State
-        }) {
+        Button(action: action) {
             VStack(alignment: .leading, spacing: iconBottomPadding) {
                 Image(systemName: systemImage)
                     .font(.system(size: iconSize))
@@ -45,7 +42,7 @@ struct GridNavigationButton<Destination: View>: View {
             }
             .padding(padding)
             .frame(maxWidth: .infinity, alignment: .topLeading)
-            .background(Color("NHSAppPaleBlue"))
+            .background(Color("NHSWhite"))
             .cornerRadius(24)
         }
         .buttonStyle(PlainButtonStyle())
@@ -53,170 +50,5 @@ struct GridNavigationButton<Destination: View>: View {
         .accessibilityHint("Double tap to open \(title)")
         .accessibilityAddTraits(.isButton)
         .accessibilityRemoveTraits(.isImage)
-        .navigationDestination(for: String.self) { value in
-            if value == title {
-                destination()
-            }
-        }
     }
-}
-
-struct AdaptiveGridView: View {
-    @State private var navigationPath = NavigationPath()
-    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
-    
-    // Determine if we should use single column based on text size
-    private var useSingleColumn: Bool {
-        // Switch to single column for accessibility sizes and larger regular sizes
-        dynamicTypeSize.isAccessibilitySize || dynamicTypeSize >= .xxLarge
-    }
-    
-    // Define grid columns based on text size
-    private var gridColumns: [GridItem] {
-        if useSingleColumn {
-            // Single column for larger text sizes
-            return [GridItem(.flexible(), spacing: 12)]
-        } else {
-            // Two columns for normal text sizes
-            return [
-                GridItem(.flexible(), spacing: 12),
-                GridItem(.flexible(), spacing: 12)
-            ]
-        }
-    }
-    
-    var body: some View {
-        NavigationStack(path: $navigationPath) {
-            List {
-                Section {
-                    LazyVGrid(columns: gridColumns, spacing: 12) {
-                        GridNavigationButton(
-                            title: "Prescriptions longer text",
-                            systemImage: "pills.fill",
-                            navigationPath: $navigationPath
-                        ) {
-                            Text("Prescriptions View")
-                        }
-                        
-                        GridNavigationButton(
-                            title: "Appointments",
-                            systemImage: "calendar.badge.clock",
-                            navigationPath: $navigationPath
-                        ) {
-                            Text("Appointments View")
-                        }
-                        
-                        GridNavigationButton(
-                            title: "Test results",
-                            systemImage: "waveform.path.ecg",
-                            navigationPath: $navigationPath
-                        ) {
-                            Text("Test Results View")
-                        }
-                        
-                        GridNavigationButton(
-                            title: "Vaccinations",
-                            systemImage: "syringe",
-                            navigationPath: $navigationPath
-                        ) {
-                            Text("Vaccinations View")
-                        }
-                    }
-                    .padding(.horizontal, 4)
-                }
-                .listRowInsets(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12))
-                .listRowBackground(Color.clear)
-            }
-            .listStyle(PlainListStyle())
-            .navigationTitle("Health Services")
-            .background(Color(UIColor.systemGroupedBackground))
-        }
-    }
-}
-
-// Alternative approach using size categories
-struct AlternativeAdaptiveGridView: View {
-    @State private var navigationPath = NavigationPath()
-    @Environment(\.sizeCategory) private var sizeCategory
-    
-    // More granular control over which size categories trigger single column
-    private var useSingleColumn: Bool {
-        switch sizeCategory {
-        case .accessibilityMedium, .accessibilityLarge,
-             .accessibilityExtraLarge, .accessibilityExtraExtraLarge,
-             .accessibilityExtraExtraExtraLarge:
-            return true
-        case .extraExtraLarge, .extraExtraExtraLarge:
-            return true
-        default:
-            return false
-        }
-    }
-    
-    private var gridColumns: [GridItem] {
-        if useSingleColumn {
-            return [GridItem(.flexible(), spacing: 12)]
-        } else {
-            return [
-                GridItem(.flexible(), spacing: 12),
-                GridItem(.flexible(), spacing: 12)
-            ]
-        }
-    }
-    
-    var body: some View {
-        NavigationStack(path: $navigationPath) {
-            List {
-                Section {
-                    LazyVGrid(columns: gridColumns, spacing: 12) {
-                        GridNavigationButton(
-                            title: "Prescriptions longer text",
-                            systemImage: "pills.fill",
-                            navigationPath: $navigationPath
-                        ) {
-                            Text("Prescriptions View")
-                        }
-                        
-                        GridNavigationButton(
-                            title: "Appointments",
-                            systemImage: "calendar.badge.clock",
-                            navigationPath: $navigationPath
-                        ) {
-                            Text("Appointments View")
-                        }
-                        
-                        GridNavigationButton(
-                            title: "Test results",
-                            systemImage: "waveform.path.ecg",
-                            navigationPath: $navigationPath
-                        ) {
-                            Text("Test Results View")
-                        }
-                        
-                        GridNavigationButton(
-                            title: "Vaccinations",
-                            systemImage: "syringe",
-                            navigationPath: $navigationPath
-                        ) {
-                            Text("Vaccinations View")
-                        }
-                    }
-                    .padding(.horizontal, 4)
-                }
-                .listRowInsets(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12))
-                .listRowBackground(Color.clear)
-            }
-            .listStyle(PlainListStyle())
-            .navigationTitle("Health Services")
-            .background(Color(UIColor.systemGroupedBackground))
-        }
-    }
-}
-
-#Preview("Adaptive Grid") {
-    AdaptiveGridView()
-}
-
-#Preview("Alternative Approach") {
-    AlternativeAdaptiveGridView()
 }
