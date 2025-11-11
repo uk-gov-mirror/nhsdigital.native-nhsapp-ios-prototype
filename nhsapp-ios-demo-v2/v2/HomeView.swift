@@ -57,6 +57,75 @@ struct HomeView: View {
         ZStack(alignment: .topLeading) {
             NavigationStack(path: $navigationPath) {
                 List {
+                    
+                    /*
+                    // NHS Card
+                    Section {
+                        HStack(alignment: .center) {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Image("nhs_logo")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(height: 28)
+                                    .accessibilityLabel("NHS")
+                                    .padding(.bottom, 12)
+                                
+                                Text("David Hunter")
+                                    .font(.title)
+                                    .bold()
+                                    .foregroundColor(.textInverseOnly)
+                                
+                                Text("\(Text("NHS number: ").bold())123 456 789")
+                                    .font(.subheadline)
+                                    .foregroundColor(.textInverseOnly)
+                            }
+                        }
+                        .padding(.top, 8)
+                        .padding(.bottom, -8)
+                        
+                        HStack(spacing: 12) {
+                            Button(action: {
+                                print("Change user tapped")
+                            }) {
+                                HStack(spacing: 6) {
+                                    Image(systemName: "arrow.triangle.2.circlepath")
+                                        .font(.system(size: 14)) // smaller icon
+                                        .bold()
+                                        .accessibilityHidden(true)
+                                    Text("Change profile")
+                                        .font(.subheadline)
+                                        .bold()
+                                }
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 12)
+                                .background(Color("NHSAppDarkBlueOnly").opacity(0.6))
+                                .foregroundColor(.textInverseOnly)
+                                .clipShape(Capsule())
+                            }
+                            
+                            
+                            Button(action: {
+                                print("Add user tapped")
+                            }) {
+                                HStack(spacing: 6) {
+                                    Image(systemName: "person.crop.circle.badge.plus")
+                                        .font(.system(size: 14)) // smaller icon
+                                        .bold()
+                                        .accessibilityHidden(true)
+                                    Text("Add person")
+                                        .font(.subheadline)
+                                        .bold()
+                                }
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 12)
+                                .background(Color("NHSAppDarkBlueOnly").opacity(0.6))
+                                .foregroundColor(.textInverseOnly)
+                                .clipShape(Capsule())
+                            }
+                        }
+                    }
+                    .rowStyle(.blue)
+                     */
 
                     if showPrescriptionCard {
                         Section {
