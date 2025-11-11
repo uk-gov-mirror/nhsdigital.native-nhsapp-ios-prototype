@@ -4,6 +4,7 @@ struct PrescriptionsView: View {
     
     private let samplePrescriptions = Prescription.activeSampleData
     @State private var showPrescription = false
+    @State private var showPrescriptionOrderFlow = false
     
     var body: some View {
         ScrollView {
@@ -85,8 +86,8 @@ struct PrescriptionsView: View {
                                 .sectionHeaderStyle()
                             
                             VStack(spacing: 1) {
-                                NavigationLink {
-                                    DetailView(index: 0)
+                                Button {
+                                    showPrescriptionOrderFlow = true
                                 } label: {
                                     MenuRow(title: "Request a repeat prescription")
                                 }
@@ -135,6 +136,9 @@ struct PrescriptionsView: View {
         .navigationBarTitleDisplayMode(.large)
         .sheet(isPresented: $showPrescription) {
             PrescriptionDetailView()
+        }
+        .fullScreenCover(isPresented: $showPrescriptionOrderFlow) {
+            PrescriptionOrderStep1View(isPresented: $showPrescriptionOrderFlow)
         }
     }
 }
