@@ -33,12 +33,11 @@ struct HomeView: View {
     private var gridColumns: [GridItem] {
         if dynamicTypeSize.isAccessibilitySize || dynamicTypeSize >= .xxxLarge {
             // Single column for larger text
-            return [GridItem(.flexible(), spacing: 12)]
+            return [GridItem(.flexible(), spacing: 8)]
         } else {
             // Two columns for normal text
             return [
-                GridItem(.flexible(), spacing: 12),
-                GridItem(.flexible(), spacing: 12)
+                GridItem(.flexible(), spacing: 8)
             ]
         }
     }
@@ -255,7 +254,7 @@ struct HomeView: View {
                                 DocumentsView()
                             }
                         }
-                        .padding(.horizontal, 0)
+                        .padding(.top, 8)
                     }
                     .listRowInsets(EdgeInsets())
                     .listRowBackground(Color.clear)
