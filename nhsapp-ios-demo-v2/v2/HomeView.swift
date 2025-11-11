@@ -26,6 +26,22 @@ struct HomeView: View {
     @State private var toggleTwo = false
     @State private var showPrescriptionCard = false
     @State private var isNavigated = false
+    
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+        
+    // Determine grid layout based on text size
+    private var gridColumns: [GridItem] {
+        if dynamicTypeSize.isAccessibilitySize || dynamicTypeSize >= .xxxLarge {
+            // Single column for larger text
+            return [GridItem(.flexible(), spacing: 12)]
+        } else {
+            // Two columns for normal text
+            return [
+                GridItem(.flexible(), spacing: 12),
+                GridItem(.flexible(), spacing: 12)
+            ]
+        }
+    }
 
     var body: some View {
         ZStack(alignment: .topLeading) {
@@ -98,6 +114,60 @@ struct HomeView: View {
                                 Image(systemName: "pills.fill")
                                     .font(.system(size: 12))
                                     .foregroundColor(Color("NHSBlue"))
+                            }
+                        } destination: { PrescriptionsView() }
+                        
+                        RowLink {
+                            Label { Text("Appointments").foregroundColor(.text) } icon: {
+                                Image(systemName: "calendar.badge.clock")
+                                    .font(.system(size: 12))
+                                    .foregroundColor(Color("NHSBlue"))
+                            }
+                        } destination: { AppointmentsView() }
+                        
+                        RowLink {
+                            Label { Text("Test results").foregroundColor(.text) } icon: {
+                                Image(systemName: "waveform.path.ecg")
+                                    .font(.system(size: 12))
+                                    .foregroundColor(Color("NHSBlue"))
+                            }
+                        } destination: { TestResultsView() }
+                        
+                        RowLink {
+                            Label { Text("Vaccinations").foregroundColor(.text) } icon: {
+                                Image(systemName: "syringe")
+                                    .font(.system(size: 12))
+                                    .foregroundColor(Color("NHSBlue"))
+                            }
+                        } destination: { VaccinationsView() }
+                        
+                        RowLink {
+                            Label { Text("Health conditions").foregroundColor(.text) } icon: {
+                                Image(systemName: "cross.case.fill")
+                                    .font(.system(size: 12))
+                                    .foregroundColor(Color("NHSBlue"))
+                            }
+                        } destination: { HealthConditionsView() }
+                        
+                        RowLink {
+                            Label { Text("Documents").foregroundColor(.text) } icon: {
+                                Image(systemName: "doc.text.fill")
+                                    .font(.system(size: 12))
+                                    .foregroundColor(Color("NHSBlue"))
+                            }
+                        } destination: { DocumentsView() }
+                    }
+                    .rowStyle(.paleBlue)
+                     */
+                    
+                    /*
+                    // Navigation links
+                    Section {
+                        RowLink {
+                            Label { Text("Prescriptions").foregroundColor(.text) } icon: {
+                                Image(systemName: "pills.fill")
+                                    .font(.system(size: 12))
+                                    .foregroundColor(Color("NHSBlue"))
                                     .padding(8)
                                     .background(Color("NHSGrey5"))
                                     .clipShape(Circle())
@@ -159,14 +229,13 @@ struct HomeView: View {
                             }
                         } destination: { DocumentsView() }
                     }
-                    .rowStyle(.white)
+                    .rowStyle(.paleBlue)
                      */
                     
+                    
+                    
                     Section {
-                        LazyVGrid(columns: [
-                            GridItem(.flexible(), spacing: 12),
-                            GridItem(.flexible(), spacing: 12)
-                        ], spacing: 12) {
+                        LazyVGrid(columns: gridColumns, spacing: 12) {
                             GridNavigationButton(title: "Prescriptions", systemImage: "pills.fill") {
                                 PrescriptionsView()
                             }
@@ -188,12 +257,11 @@ struct HomeView: View {
                         }
                         .padding(.horizontal, 0)
                     }
-                    .listRowInsets(EdgeInsets()) // Remove all insets
+                    .listRowInsets(EdgeInsets())
                     .listRowBackground(Color.clear)
-                    .listRowSeparator(.hidden) // Hide any separators
-                    .environment(\.defaultMinListRowHeight, 0) // Remove default row height
-                    // Add this modifier to handle very large text sizes
-                    .dynamicTypeSize(...DynamicTypeSize.accessibility2) // Limit maximum size if needed
+                    .listRowSeparator(.hidden)
+                    .environment(\.defaultMinListRowHeight, 0)
+                    
                     
                     // External links
                     Section {
