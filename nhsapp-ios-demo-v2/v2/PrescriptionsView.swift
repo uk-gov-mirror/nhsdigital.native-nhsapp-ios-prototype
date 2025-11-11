@@ -4,6 +4,8 @@ struct PrescriptionsView: View {
     
     @State private var showPrescriptionCard = true
 
+    let profile: Profile
+    
     var body: some View {
         List {
             
@@ -78,5 +80,5 @@ struct PrescriptionsView: View {
 }
 
 #Preview {
-    PrescriptionsView()
+    PrescriptionsView(profile: Profile.profiles[0])
 }

@@ -2,6 +2,8 @@ import SwiftUI
 
 struct DocumentsView: View {
 
+    let profile: Profile
+    
     var body: some View {
         List {
 
@@ -28,5 +30,5 @@ struct DocumentsView: View {
 }
 
 #Preview {
-    DocumentsView()
+    DocumentsView(profile: Profile.profiles[0])
 }

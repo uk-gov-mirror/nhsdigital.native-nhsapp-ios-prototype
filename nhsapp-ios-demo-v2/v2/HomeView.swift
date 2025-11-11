@@ -1,158 +1,72 @@
 import SwiftUI
 
-struct HomeView: View {
+// Profile model
+struct Profile: Identifiable, Equatable {
+    let id: Int
+    let name: String
+    let nhsNumber: String
+    let color: Color
+    
+    static let profiles = [
+        Profile(id: 0, name: "David Hunter", nhsNumber: "123 456 789", color: Color("NHSAppBlue")),
+        Profile(id: 1, name: "Sarah Hunter", nhsNumber: "987 654 321", color: Color("NHSPurple")),
+        Profile(id: 2, name: "Emma Hunter", nhsNumber: "456 789 123", color: Color("NHSPink"))
+    ]
+}
 
-    // Use an Identifiable item so the cover only shows when non-nil
+struct HomeView: View {
+    
+    // MARK: - State Variables
+    @State private var chosenProfile: Profile = Profile.profiles[0]
+    @State private var selectedLink: LinkItem? = nil
+    @AccessibilityFocusState private var isSafariFocused: Bool
+    @State private var showPrescriptionCard = false
+    @State private var showAppointmentCard = true
+    
+    // MARK: - Link Item
     struct LinkItem: Identifiable, Equatable {
         let id = UUID()
         let title: String
         let url: URL
     }
 
-    @State private var selectedLink: LinkItem? = nil
-    
-    @AccessibilityFocusState private var isSafariFocused: Bool
-
-    // State variables for toggle examples
-    @State private var toggleOne = true
-    @State private var toggleTwo = false
-    
-    // Start hidden so we can animate it in after a delay
-    @State private var showPrescriptionCard = false
-    
-    @State private var showAppointmentCard = true
-
     var body: some View {
         NavigationStack {
             List {
                 
-                // Custom row with title, subtitle and a navigation link
+                // MARK: - Profile Card Selector
                 Section {
-                    HStack(alignment: .center) {
-                        VStack(alignment: .leading, spacing: 4) {
-                            Image("nhs_logo")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(height: 28)
-                                .accessibilityLabel("NHS")
-                                .padding(.bottom, 12)
-                            
-                            Text("David Hunter")
-                                .font(.title)
-                                .bold()
-                                .foregroundColor(.textInverseOnly)
-                            
-                            Text("\(Text("NHS number: ").bold())123 456 789")
-                                .font(.subheadline)
-                                .foregroundColor(.textInverseOnly)
-                        }
-                    }
-                    .padding(.top, 8)
-                    .padding(.bottom, -8)
-                    
-                    HStack(spacing: 12) {
-                        Button(action: {
-                            print("Change user tapped")
-                        }) {
-                            HStack(spacing: 6) {
-                                Image(systemName: "arrow.triangle.2.circlepath")
-                                    .font(.system(size: 14)) // smaller icon
-                                    .bold()
-                                    .accessibilityHidden(true)
-                                Text("Change profile")
-                                    .font(.subheadline)
-                                    .bold()
-                            }
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 6)
-                            .background(Color("NHSAppDarkBlueOnly").opacity(0.6))
-                            .foregroundColor(.textInverseOnly)
-                            .clipShape(Capsule())
-                        }
-                        
-                        Button(action: {
-                            print("Add user tapped")
-                        }) {
-                            HStack(spacing: 6) {
-                                Image(systemName: "person.crop.circle.badge.plus")
-                                    .font(.system(size: 14)) // smaller icon
-                                    .bold()
-                                    .accessibilityHidden(true)
-                                Text("Add person")
-                                    .font(.subheadline)
-                                    .bold()
-                            }
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 6)
-                            .background(Color("NHSAppDarkBlueOnly").opacity(0.6))
-                            .foregroundColor(.textInverseOnly)
-                            .clipShape(Capsule())
-                        }
-                    }
-                }
-                .rowStyle(.blue)
-                
-                // Prescription card (no persistence; shows after delay on each appearance)
-                if showPrescriptionCard {
-                    Section {
-                        ZStack(alignment: .topTrailing) {
-                                
-                            HStack(alignment: .center) {
-                                VStack(alignment: .leading, spacing: 8) {
-                                    Text("Ready to collect")
-                                        .font(.body)
-                                        .bold()
-                                    Text("Ramipril 50mg | Order 557579689")
+                    GeometryReader { geometry in
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 16) {
+                                ForEach(Profile.profiles) { profile in
+                                    ProfileCard(
+                                        profile: profile,
+                                        isSelected: chosenProfile.id == profile.id
+                                    )
+                                    .onTapGesture {
+                                        withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                                            chosenProfile = profile
+                                        }
+                                    }
                                 }
-                                Spacer(minLength: 40)
                             }
-
-                            Button {
-                                withAnimation(.easeInOut) {
-                                    showPrescriptionCard = false
-                                }
-                            } label: {
-                                Image(systemName: "xmark.circle.fill")
-                                    .font(.title2)
-                                    .foregroundColor(Color("NHSAppDarkPurple"))
-                                    .accessibilityLabel("Dismiss prescription card")
-                            }
-                            .accessibilityLabel("Dismiss prescription card")
-                            .accessibilityHint("Hides the ‘Ready to collect’ message.")
-                            
+                            .padding(.horizontal, 20)
+                            .scrollTargetLayout()
                         }
-                        RowLink(title: "View prescription", chevronColor: Color("NHSAppDarkPurple").opacity(0.7)) { DetailView(index: 0) }
+                        .scrollTargetBehavior(.viewAligned)
+                        .scrollPosition(id: .constant(chosenProfile.id))
+                        .contentMargins(.horizontal, 0)
                     }
-                    .rowStyle(.palePurple)
-                    .transition(.move(edge: .top).combined(with: .opacity))
+                    .frame(height: 180)
+                    .listRowInsets(EdgeInsets())
+                    .listRowBackground(Color.clear)
                 }
+                .listRowBackground(Color.clear)
                 
-                if showAppointmentCard {
-                    // Appointment card (example)
-                    Section {
-                        RowLink {
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text("Upcoming appointment")
-                                    .bold()
-                                    .padding(.bottom, 4)
-                                Text("Tuesday, 15 November 2025")
-                                    .font(.subheadline)
-                                Text("3:15pm")
-                                    .font(.subheadline)
-                                    .padding(.bottom, 8)
-                                Text("Dr Conor Murphy")
-                                    .font(.subheadline)
-                                Text("Menston Medical Centre")
-                                    .font(.subheadline)
-                            }
-                            .padding(.vertical, 4)
-                        } destination: { DetailView(index: 0) }
-                    }
-                    .rowStyle(.paleBlue)
-                }
                 
-
-                // Navigation links
+                
+                // MARK: - Navigation Links
                 Section {
                     RowLink {
                         Label {
@@ -166,7 +80,7 @@ struct HomeView: View {
                                 .background(Color("NHSAppPalePurple"))
                                 .clipShape(Circle())
                         }
-                    } destination: { PrescriptionsView() }
+                    } destination: { PrescriptionsView(profile: chosenProfile) }
 
                     RowLink {
                         Label {
@@ -180,7 +94,7 @@ struct HomeView: View {
                                 .background(Color("NHSAppPaleBlue"))
                                 .clipShape(Circle())
                         }
-                    } destination: { AppointmentsView() }
+                    } destination: { AppointmentsView(profile: chosenProfile) }
 
                     RowLink {
                         Label {
@@ -194,7 +108,7 @@ struct HomeView: View {
                                 .background(Color("NHSAppPalePink"))
                                 .clipShape(Circle())
                         }
-                    } destination: { TestResultsView() }
+                    } destination: { TestResultsView(profile: chosenProfile) }
 
                     RowLink {
                         Label {
@@ -208,7 +122,7 @@ struct HomeView: View {
                                 .background(Color("NHSAppPaleOrange"))
                                 .clipShape(Circle())
                         }
-                    } destination: { VaccinationsView() }
+                    } destination: { VaccinationsView(profile: chosenProfile) }
 
                     RowLink {
                         Label {
@@ -222,7 +136,7 @@ struct HomeView: View {
                                 .background(Color("NHSAppPaleAquaGreen"))
                                 .clipShape(Circle())
                         }
-                    } destination: { HealthConditionsView() }
+                    } destination: { HealthConditionsView(profile: chosenProfile) }
 
                     RowLink {
                         Label {
@@ -236,12 +150,11 @@ struct HomeView: View {
                                 .background(Color("NHSAppPaleRed"))
                                 .clipShape(Circle())
                         }
-                    } destination: { DocumentsView() }
+                    } destination: { DocumentsView(profile: chosenProfile) }
                 }
                 .rowStyle(.white)
 
-
-                // External link rows (multiple)
+                // MARK: - External Links
                 Section {
                     ExternalLinkRow(title: "Check your symptoms using 111 online",
                                     url: URL(string: "https://111.nhs.uk/")!) { url in
@@ -260,7 +173,7 @@ struct HomeView: View {
                 }
                 .rowStyle(.white)
                 
-                // Campaign card
+                // MARK: - Campaign Card
                 Section {
                     CampaignCard(
                         imageName: "campaign_img",
@@ -276,24 +189,55 @@ struct HomeView: View {
 
             }
             .fullScreenCover(item: $selectedLink) { link in
-              SafariView(url: link.url)
-                .ignoresSafeArea()
-                .accessibilityFocused($isSafariFocused)
-                .onAppear { isSafariFocused = true }
+                SafariView(url: link.url)
+                    .ignoresSafeArea()
+                    .accessibilityFocused($isSafariFocused)
+                    .onAppear { isSafariFocused = true }
             }
             .nhsListStyle()
         }
         .background(Color.pageBackground)
-        .onAppear {
-            // Re-schedule every time HomeView appears
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                withAnimation(.easeInOut(duration: 0.5)) {
-                    showPrescriptionCard = true
-                }
-            }
-        }
     }
 }
+
+// MARK: - Profile Card View
+struct ProfileCard: View {
+    let profile: Profile
+    let isSelected: Bool
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Image("nhs_logo")
+                .resizable()
+                .scaledToFit()
+                .frame(height: 28)
+                .accessibilityLabel("NHS")
+                .padding(.bottom, 12)
+            
+            Text(profile.name)
+                .font(.title2)
+                .bold()
+                .foregroundColor(.white)
+            
+            Text("\(Text("NHS number: ").bold())\(profile.nhsNumber)")
+                .font(.subheadline)
+                .foregroundColor(.white.opacity(0.9))
+            
+            Spacer()
+        }
+        .frame(width: UIScreen.main.bounds.width - 80, height: 140)
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(profile.color)
+        )
+        .shadow(color: isSelected ? .black.opacity(0.2) : .clear, radius: 8, x: 0, y: 4)
+        .scaleEffect(isSelected ? 1.0 : 0.95)
+        .animation(.spring(response: 0.3, dampingFraction: 0.7), value: isSelected)
+    }
+}
+
+
 
 #Preview {
     HomeView()

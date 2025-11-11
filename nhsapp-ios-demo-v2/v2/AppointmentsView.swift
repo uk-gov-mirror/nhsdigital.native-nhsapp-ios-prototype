@@ -2,6 +2,8 @@ import SwiftUI
 
 struct AppointmentsView: View {
 
+    let profile: Profile
+    
     var body: some View {
         List {
 
@@ -42,5 +44,5 @@ struct AppointmentsView: View {
 }
 
 #Preview {
-    AppointmentsView()
+    AppointmentsView(profile: Profile.profiles[0])
 }

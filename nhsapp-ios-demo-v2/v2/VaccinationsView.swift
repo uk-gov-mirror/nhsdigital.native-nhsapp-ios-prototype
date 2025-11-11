@@ -2,6 +2,8 @@ import SwiftUI
 
 struct VaccinationsView: View {
 
+    let profile: Profile
+    
     var body: some View {
         List {
 
@@ -20,5 +22,5 @@ struct VaccinationsView: View {
 }
 
 #Preview {
-    VaccinationsView()
+    VaccinationsView(profile: Profile.profiles[0])
 }

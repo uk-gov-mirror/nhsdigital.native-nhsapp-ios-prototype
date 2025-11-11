@@ -2,6 +2,8 @@ import SwiftUI
 
 struct TestResultsView: View {
 
+    let profile: Profile
+    
     var body: some View {
         List {
 
@@ -27,5 +29,5 @@ struct TestResultsView: View {
 }
 
 #Preview {
-    TestResultsView()
+    TestResultsView(profile: Profile.profiles[0])
 }
