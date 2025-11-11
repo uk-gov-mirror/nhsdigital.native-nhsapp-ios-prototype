@@ -16,10 +16,30 @@ struct PrescriptionCarousel: View {
 
     private let spacing: CGFloat = 10
     @State private var maxCardSize: CGSize = CGSize(width: 0, height: 240)
+    @Environment(\.sizeCategory) var sizeCategory
+    
+    // Dynamic card width based on text size category
+    private func cardWidth(for geometryWidth: CGFloat) -> CGFloat {
+        switch sizeCategory {
+        case .accessibilityMedium, .accessibilityLarge,
+             .accessibilityExtraLarge, .accessibilityExtraExtraLarge,
+             .accessibilityExtraExtraExtraLarge:
+            // For accessibility sizes, show almost full width to prevent truncation
+            return geometryWidth * 0.8
+        case .extraExtraLarge, .extraExtraExtraLarge:
+            return geometryWidth * 0.8
+        case .extraLarge:
+            return geometryWidth * 0.8
+        case .large:
+            return geometryWidth * 0.7
+        default:
+            return geometryWidth * 0.66
+        }
+    }
     
     var body: some View {
         GeometryReader { geo in
-            let cardWidth = geo.size.width * 0.66
+            let cardWidth = cardWidth(for: geo.size.width)
             let leadingPadding: CGFloat = 16
             let trailingPeekPadding: CGFloat = 0
 
@@ -39,6 +59,8 @@ struct PrescriptionCarousel: View {
 
                         PrescriptionCard(prescription: prescription)
                             .frame(width: cardWidth)
+                            // Allow the card to expand vertically as needed
+                            .fixedSize(horizontal: false, vertical: true)
                             .background(
                                 GeometryReader { geometry in
                                     Color.clear
@@ -56,16 +78,19 @@ struct PrescriptionCarousel: View {
                             .onTapGesture { onSelect(prescription) }
                     }
 
-                    // peeking on the right
-                    Spacer().frame(width: trailingPeekPadding)
+                    // peeking on the right - only show if not in accessibility sizes
+                    if !sizeCategory.isAccessibilityCategory {
+                        Spacer().frame(width: trailingPeekPadding)
+                    }
                 }
             }
             .contentMargins(.leading, leadingPadding, for: .scrollContent)
             .onPreferenceChange(SizePreferenceKey.self) { size in
                 // Add padding to ensure content isn't cut off
+                let padding: CGFloat = sizeCategory.isAccessibilityCategory ? 40 : 20
                 maxCardSize = CGSize(
                     width: size.width,
-                    height: size.height + 20
+                    height: size.height + padding
                 )
             }
             .accessibilityElement(children: .contain)
@@ -76,6 +101,21 @@ struct PrescriptionCarousel: View {
         .animation(.easeInOut(duration: 0.2), value: maxCardSize.height)
     }
 }
+
+// Extension to check if size category is accessibility
+extension ContentSizeCategory {
+    var isAccessibilityCategory: Bool {
+        switch self {
+        case .accessibilityMedium, .accessibilityLarge,
+             .accessibilityExtraLarge, .accessibilityExtraExtraLarge,
+             .accessibilityExtraExtraExtraLarge:
+            return true
+        default:
+            return false
+        }
+    }
+}
+
 
 #Preview {
     PrescriptionCarousel(

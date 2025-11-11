@@ -70,22 +70,19 @@ struct PrescriptionsView: View {
                                     .foregroundColor(Color("NHSGrey2"))
                             }
                             .padding()
-                            .background(Color("NHSWhite"))
-                            .cornerRadius(24)
                         }
                         .accessibilityElement(children: .combine)
                         .accessibilityLabel("Your chosen pharmacy, Wellcare Pharmacy")
                         .accessibilityHint("Double tap to change your pharmacy")
                     }
-                    .padding(.horizontal, 16)
+                    .cardStyle()
                     
                     // MARK: GP Surgery Section
                     VStack(alignment: .leading, spacing: 32) {
                         
                         VStack(alignment: .leading, spacing: 8) {
                             Text("GP surgery")
-                                .font(.body.bold())
-                                .padding(.leading, 32)
+                                .sectionHeaderStyle()
                             
                             VStack(spacing: 1) {
                                 NavigationLink {
@@ -94,11 +91,7 @@ struct PrescriptionsView: View {
                                     MenuRow(title: "Request a repeat prescription")
                                 }
                                 
-                                Divider()
-                                    .frame(height: 1)
-                                    .overlay(Color("NHSGrey4"))
-                                    .padding(.leading, 16)
-                                    .padding(.trailing, 16)
+                                CardDivider()
                                 
                                 NavigationLink {
                                     DetailView(index: 0)
@@ -106,11 +99,7 @@ struct PrescriptionsView: View {
                                     MenuRow(title: "Medicines record")
                                 }
                                 
-                                Divider()
-                                    .frame(height: 1)
-                                    .overlay(Color("NHSGrey4"))
-                                    .padding(.leading, 16)
-                                    .padding(.trailing, 16)
+                                CardDivider()
                                     
                                 NavigationLink {
                                     DetailView(index: 0)
@@ -118,26 +107,21 @@ struct PrescriptionsView: View {
                                     MenuRow(title: "Request an emergency prescription")
                                 }
                             }
-                            .background(Color("NHSWhite"))
-                            .cornerRadius(24)
-                            .padding(.horizontal, 16)
+                            .cardStyle()
                         }
                     }
                     
                     // MARK: Hospital Section
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Hospital")
-                            .font(.body.bold())
-                            .padding(.leading, 32)
+                            .sectionHeaderStyle()
                         
                         NavigationLink {
                             DetailView(index: 0)
                         } label: {
                             MenuRow(title: "Hospital and other medicines")
                         }
-                        .background(Color("NHSWhite"))
-                        .cornerRadius(24)
-                        .padding(.horizontal, 16)
+                        .cardStyle()
                     }
                     
                     // Bottom padding
@@ -152,27 +136,6 @@ struct PrescriptionsView: View {
         .sheet(isPresented: $showPrescription) {
             PrescriptionDetailView()
         }
-    }
-}
-
-// Helper view for menu rows
-struct MenuRow: View {
-    let title: String
-    
-    var body: some View {
-        HStack {
-            Text(title)
-                .font(.body)
-                .foregroundColor(Color("NHSBlack"))
-            
-            Spacer()
-            
-            Image(systemName: "chevron.right")
-                .font(.system(size: 14))
-                .foregroundColor(Color("NHSGrey2"))
-        }
-        .padding()
-        .contentShape(Rectangle())
     }
 }
 

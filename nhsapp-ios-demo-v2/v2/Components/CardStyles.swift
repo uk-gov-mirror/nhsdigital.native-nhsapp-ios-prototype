@@ -41,3 +41,25 @@ extension View {
         modifier(SectionHeaderStyle())
     }
 }
+
+// Helper view for menu rows
+struct MenuRow: View {
+    let title: String
+    
+    var body: some View {
+        HStack {
+            Text(title)
+                .font(.body)
+                .foregroundColor(Color("NHSBlack"))
+            
+            Spacer()
+            
+            Image(systemName: "chevron.right")
+                .font(.system(size: 14))
+                .foregroundColor(Color("NHSGrey2"))
+                .accessibilityHidden(true)
+        }
+        .padding()
+        .contentShape(Rectangle())
+    }
+}

@@ -69,7 +69,7 @@ struct PrescriptionCard: View {
 
             HStack(spacing: 8) {
                 Image(systemName: iconForStatus)
-                    .font(.system(size: 12))
+                    .font(.caption)
                     .foregroundColor(statusColor)
                     .accessibilityHidden(true)
 
