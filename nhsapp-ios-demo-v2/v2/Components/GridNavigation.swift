@@ -3,9 +3,9 @@ import SwiftUI
 struct GridNavigationButton<Destination: View>: View {
     let title: String
     let systemImage: String
+    @Binding var navigationPath: NavigationPath
     @ViewBuilder let destination: () -> Destination
-    @State private var navigate = false
-    @Environment(\.isNavigated) private var isNavigated
+    
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     
     // Use @ScaledMetric to scale values with Dynamic Type
@@ -15,8 +15,7 @@ struct GridNavigationButton<Destination: View>: View {
     
     var body: some View {
         Button(action: {
-            navigate = true
-            isNavigated.wrappedValue = true
+            navigationPath.append(title) // Append to path instead of using @State
         }) {
             VStack(alignment: .leading, spacing: iconBottomPadding) {
                 Image(systemName: systemImage)
@@ -54,16 +53,16 @@ struct GridNavigationButton<Destination: View>: View {
         .accessibilityHint("Double tap to open \(title)")
         .accessibilityAddTraits(.isButton)
         .accessibilityRemoveTraits(.isImage)
-        .navigationDestination(isPresented: $navigate) {
-            destination()
-                .onAppear {
-                    isNavigated.wrappedValue = true
-                }
+        .navigationDestination(for: String.self) { value in
+            if value == title {
+                destination()
+            }
         }
     }
 }
 
 struct AdaptiveGridView: View {
+    @State private var navigationPath = NavigationPath()
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     
     // Determine if we should use single column based on text size
@@ -87,34 +86,38 @@ struct AdaptiveGridView: View {
     }
     
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $navigationPath) {
             List {
                 Section {
                     LazyVGrid(columns: gridColumns, spacing: 12) {
                         GridNavigationButton(
                             title: "Prescriptions longer text",
-                            systemImage: "pills.fill"
+                            systemImage: "pills.fill",
+                            navigationPath: $navigationPath
                         ) {
                             Text("Prescriptions View")
                         }
                         
                         GridNavigationButton(
                             title: "Appointments",
-                            systemImage: "calendar.badge.clock"
+                            systemImage: "calendar.badge.clock",
+                            navigationPath: $navigationPath
                         ) {
                             Text("Appointments View")
                         }
                         
                         GridNavigationButton(
                             title: "Test results",
-                            systemImage: "waveform.path.ecg"
+                            systemImage: "waveform.path.ecg",
+                            navigationPath: $navigationPath
                         ) {
                             Text("Test Results View")
                         }
                         
                         GridNavigationButton(
                             title: "Vaccinations",
-                            systemImage: "syringe"
+                            systemImage: "syringe",
+                            navigationPath: $navigationPath
                         ) {
                             Text("Vaccinations View")
                         }
@@ -133,6 +136,7 @@ struct AdaptiveGridView: View {
 
 // Alternative approach using size categories
 struct AlternativeAdaptiveGridView: View {
+    @State private var navigationPath = NavigationPath()
     @Environment(\.sizeCategory) private var sizeCategory
     
     // More granular control over which size categories trigger single column
@@ -161,34 +165,38 @@ struct AlternativeAdaptiveGridView: View {
     }
     
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $navigationPath) {
             List {
                 Section {
                     LazyVGrid(columns: gridColumns, spacing: 12) {
                         GridNavigationButton(
                             title: "Prescriptions longer text",
-                            systemImage: "pills.fill"
+                            systemImage: "pills.fill",
+                            navigationPath: $navigationPath
                         ) {
                             Text("Prescriptions View")
                         }
                         
                         GridNavigationButton(
                             title: "Appointments",
-                            systemImage: "calendar.badge.clock"
+                            systemImage: "calendar.badge.clock",
+                            navigationPath: $navigationPath
                         ) {
                             Text("Appointments View")
                         }
                         
                         GridNavigationButton(
                             title: "Test results",
-                            systemImage: "waveform.path.ecg"
+                            systemImage: "waveform.path.ecg",
+                            navigationPath: $navigationPath
                         ) {
                             Text("Test Results View")
                         }
                         
                         GridNavigationButton(
                             title: "Vaccinations",
-                            systemImage: "syringe"
+                            systemImage: "syringe",
+                            navigationPath: $navigationPath
                         ) {
                             Text("Vaccinations View")
                         }

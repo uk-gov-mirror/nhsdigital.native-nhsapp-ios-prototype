@@ -18,6 +18,16 @@ struct HomeView: View {
             }
         }
     }
+    
+    // Define navigation destinations as an enum
+    enum NavigationDestination: Hashable {
+        case prescriptions
+        case appointments
+        case testResults
+        case vaccinations
+        case healthConditions
+        case documents
+    }
 
     @State private var activeCover: Cover? = nil
     @AccessibilityFocusState private var isSafariFocused: Bool
@@ -25,7 +35,7 @@ struct HomeView: View {
     @State private var toggleOne = true
     @State private var toggleTwo = false
     @State private var showPrescriptionCard = false
-    @State private var isNavigated = false
+    @State private var navigationPath = NavigationPath()
     
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
         
@@ -45,7 +55,7 @@ struct HomeView: View {
 
     var body: some View {
         ZStack(alignment: .topLeading) {
-            NavigationStack {
+            NavigationStack(path: $navigationPath) {
                 List {
 
                     if showPrescriptionCard {
@@ -83,7 +93,7 @@ struct HomeView: View {
                                         .foregroundColor(Color("NHSAppDarkGreen"))
                                 }
                                 .accessibilityLabel("Dismiss prescription")
-                                .accessibilityHint("Hides the ‘Prescription is ready to collect’ message.")
+                                .accessibilityHint("Hides the 'Prescription is ready to collect' message.")
                             }
                             
                             VStack(alignment: .leading, spacing: 8) {
@@ -106,154 +116,38 @@ struct HomeView: View {
                         .transition(.move(edge: .top).combined(with: .opacity))
                     }
                     
-                    /*
-                    // Navigation links
-                    Section {
-                        RowLink {
-                            Label { Text("Prescriptions").foregroundColor(.text) } icon: {
-                                Image(systemName: "pills.fill")
-                                    .font(.system(size: 12))
-                                    .foregroundColor(Color("NHSBlue"))
-                            }
-                        } destination: { PrescriptionsView() }
-                        
-                        RowLink {
-                            Label { Text("Appointments").foregroundColor(.text) } icon: {
-                                Image(systemName: "calendar.badge.clock")
-                                    .font(.system(size: 12))
-                                    .foregroundColor(Color("NHSBlue"))
-                            }
-                        } destination: { AppointmentsView() }
-                        
-                        RowLink {
-                            Label { Text("Test results").foregroundColor(.text) } icon: {
-                                Image(systemName: "waveform.path.ecg")
-                                    .font(.system(size: 12))
-                                    .foregroundColor(Color("NHSBlue"))
-                            }
-                        } destination: { TestResultsView() }
-                        
-                        RowLink {
-                            Label { Text("Vaccinations").foregroundColor(.text) } icon: {
-                                Image(systemName: "syringe")
-                                    .font(.system(size: 12))
-                                    .foregroundColor(Color("NHSBlue"))
-                            }
-                        } destination: { VaccinationsView() }
-                        
-                        RowLink {
-                            Label { Text("Health conditions").foregroundColor(.text) } icon: {
-                                Image(systemName: "cross.case.fill")
-                                    .font(.system(size: 12))
-                                    .foregroundColor(Color("NHSBlue"))
-                            }
-                        } destination: { HealthConditionsView() }
-                        
-                        RowLink {
-                            Label { Text("Documents").foregroundColor(.text) } icon: {
-                                Image(systemName: "doc.text.fill")
-                                    .font(.system(size: 12))
-                                    .foregroundColor(Color("NHSBlue"))
-                            }
-                        } destination: { DocumentsView() }
-                    }
-                    .rowStyle(.paleBlue)
-                     */
-                    
-                    /*
-                    // Navigation links
-                    Section {
-                        RowLink {
-                            Label { Text("Prescriptions").foregroundColor(.text) } icon: {
-                                Image(systemName: "pills.fill")
-                                    .font(.system(size: 12))
-                                    .foregroundColor(Color("NHSBlue"))
-                                    .padding(8)
-                                    .background(Color("NHSGrey5"))
-                                    .clipShape(Circle())
-                            }
-                        } destination: { PrescriptionsView() }
-                        
-                        RowLink {
-                            Label { Text("Appointments").foregroundColor(.text) } icon: {
-                                Image(systemName: "calendar.badge.clock")
-                                    .font(.system(size: 12))
-                                    .foregroundColor(Color("NHSBlue"))
-                                    .padding(8)
-                                    .background(Color("NHSGrey5"))
-                                    .clipShape(Circle())
-                            }
-                        } destination: { AppointmentsView() }
-                        
-                        RowLink {
-                            Label { Text("Test results").foregroundColor(.text) } icon: {
-                                Image(systemName: "waveform.path.ecg")
-                                    .font(.system(size: 12))
-                                    .foregroundColor(Color("NHSBlue"))
-                                    .padding(8)
-                                    .background(Color("NHSGrey5"))
-                                    .clipShape(Circle())
-                            }
-                        } destination: { TestResultsView() }
-                        
-                        RowLink {
-                            Label { Text("Vaccinations").foregroundColor(.text) } icon: {
-                                Image(systemName: "syringe")
-                                    .font(.system(size: 12))
-                                    .foregroundColor(Color("NHSBlue"))
-                                    .padding(8)
-                                    .background(Color("NHSGrey5"))
-                                    .clipShape(Circle())
-                            }
-                        } destination: { VaccinationsView() }
-                        
-                        RowLink {
-                            Label { Text("Health conditions").foregroundColor(.text) } icon: {
-                                Image(systemName: "cross.case.fill")
-                                    .font(.system(size: 12))
-                                    .foregroundColor(Color("NHSBlue"))
-                                    .padding(8)
-                                    .background(Color("NHSGrey5"))
-                                    .clipShape(Circle())
-                            }
-                        } destination: { HealthConditionsView() }
-                        
-                        RowLink {
-                            Label { Text("Documents").foregroundColor(.text) } icon: {
-                                Image(systemName: "doc.text.fill")
-                                    .font(.system(size: 12))
-                                    .foregroundColor(Color("NHSBlue"))
-                                    .padding(8)
-                                    .background(Color("NHSGrey5"))
-                                    .clipShape(Circle())
-                            }
-                        } destination: { DocumentsView() }
-                    }
-                    .rowStyle(.paleBlue)
-                     */
-                    
-                    
-                    
                     Section {
                         LazyVGrid(columns: gridColumns, spacing: 12) {
-                            GridNavigationButton(title: "Prescriptions", systemImage: "pills.fill") {
-                                PrescriptionsView()
-                            }
-                            GridNavigationButton(title: "Appointments", systemImage: "calendar.badge.clock") {
-                                AppointmentsView()
-                            }
-                            GridNavigationButton(title: "Test results", systemImage: "waveform.path.ecg") {
-                                TestResultsView()
-                            }
-                            GridNavigationButton(title: "Vaccinations", systemImage: "syringe") {
-                                VaccinationsView()
-                            }
-                            GridNavigationButton(title: "Health conditions", systemImage: "cross.case.fill") {
-                                HealthConditionsView()
-                            }
-                            GridNavigationButton(title: "Documents", systemImage: "doc.text.fill") {
-                                DocumentsView()
-                            }
+                            SimpleGridNavigationButton(
+                                title: "Prescriptions",
+                                systemImage: "pills.fill",
+                                action: { navigationPath.append(NavigationDestination.prescriptions) }
+                            )
+                            SimpleGridNavigationButton(
+                                title: "Appointments",
+                                systemImage: "calendar.badge.clock",
+                                action: { navigationPath.append(NavigationDestination.appointments) }
+                            )
+                            SimpleGridNavigationButton(
+                                title: "Test results",
+                                systemImage: "waveform.path.ecg",
+                                action: { navigationPath.append(NavigationDestination.testResults) }
+                            )
+                            SimpleGridNavigationButton(
+                                title: "Vaccinations",
+                                systemImage: "syringe",
+                                action: { navigationPath.append(NavigationDestination.vaccinations) }
+                            )
+                            SimpleGridNavigationButton(
+                                title: "Health conditions",
+                                systemImage: "cross.case.fill",
+                                action: { navigationPath.append(NavigationDestination.healthConditions) }
+                            )
+                            SimpleGridNavigationButton(
+                                title: "Documents",
+                                systemImage: "doc.text.fill",
+                                action: { navigationPath.append(NavigationDestination.documents) }
+                            )
                         }
                         .padding(.horizontal, 0)
                     }
@@ -299,6 +193,23 @@ struct HomeView: View {
                 .navigationTitle("Home")
                 .navigationBarTitleDisplayMode(.large)
                 .appHelpToolbar()
+                // Define all navigation destinations here
+                .navigationDestination(for: NavigationDestination.self) { destination in
+                    switch destination {
+                    case .prescriptions:
+                        PrescriptionsView()
+                    case .appointments:
+                        AppointmentsView()
+                    case .testResults:
+                        TestResultsView()
+                    case .vaccinations:
+                        VaccinationsView()
+                    case .healthConditions:
+                        HealthConditionsView()
+                    case .documents:
+                        DocumentsView()
+                    }
+                }
             }
             .background(Color.pageBackground)
             .fullScreenCover(item: $activeCover) { cover in
@@ -312,9 +223,7 @@ struct HomeView: View {
                         .onAppear { isSafariFocused = true }
                 }
             }
-            .environment(\.isNavigated, $isNavigated)
             .onAppear {
-                isNavigated = false
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                     withAnimation(.easeInOut(duration: 0.5)) {
                         showPrescriptionCard = true
@@ -322,8 +231,8 @@ struct HomeView: View {
                 }
             }
             
-            // Logo - outside NavigationStack, only visible when not navigated
-            if !isNavigated {
+            // Logo - outside NavigationStack, only visible when at root of navigation
+            if navigationPath.isEmpty {
                 Image("nhs_logo_blue")
                     .resizable()
                     .scaledToFit()
@@ -334,6 +243,59 @@ struct HomeView: View {
                     .allowsHitTesting(false)
             }
         }
+    }
+}
+
+// Simplified grid button that just takes an action
+struct SimpleGridNavigationButton: View {
+    let title: String
+    let systemImage: String
+    let action: () -> Void
+    
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+    
+    @ScaledMetric(relativeTo: .body) private var iconSize: CGFloat = 28
+    @ScaledMetric(relativeTo: .body) private var padding: CGFloat = 16
+    @ScaledMetric(relativeTo: .body) private var iconBottomPadding: CGFloat = 4
+    
+    var body: some View {
+        Button(action: action) {
+            VStack(alignment: .leading, spacing: iconBottomPadding) {
+                Image(systemName: systemImage)
+                    .font(.system(size: iconSize))
+                    .foregroundColor(Color("AccentColor"))
+                    .accessibilityHidden(true)
+                    .padding(.top, 4)
+                
+                Spacer(minLength: 4)
+                
+                HStack(alignment: .bottom) {
+                    Text(title)
+                        .font(.body)
+                        .foregroundColor(.text)
+                        .multilineTextAlignment(.leading)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .lineLimit(nil)
+                    
+                    Spacer(minLength: 8)
+                    
+                    Image(systemName: "chevron.right")
+                        .font(.caption)
+                        .foregroundColor(Color("NHSGrey2"))
+                        .padding(.bottom, 3)
+                        .accessibilityHidden(true)
+                }
+            }
+            .padding(padding)
+            .frame(maxWidth: .infinity, alignment: .topLeading)
+            .background(Color("NHSAppPaleBlue"))
+            .cornerRadius(24)
+        }
+        .buttonStyle(PlainButtonStyle())
+        .accessibilityLabel(title)
+        .accessibilityHint("Double tap to open \(title)")
+        .accessibilityAddTraits(.isButton)
+        .accessibilityRemoveTraits(.isImage)
     }
 }
 
