@@ -1064,5 +1064,7 @@ struct PrescriptionOrderStep6View: View {
 
 // MARK: - Preview
 #Preview {
-    PrescriptionsView()
+    NavigationStack {
+        PrescriptionsView()
+    }
 }
